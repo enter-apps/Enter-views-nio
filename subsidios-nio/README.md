@@ -5,8 +5,8 @@ App para operadores da Nio montarem subsídios: questionário guiado por subobje
 ## Estrutura
 - `src/src.html`: código-fonte (HTML único, JS puro) com os marcadores `__DATA__` e `__ASSETS__`.
 - `src/data.json`, `src/assets.json`: dados de causas e imagens (logo e ondas) embutidos no build.
-- `dist/app.html`: app pronto, publicado como artefato.
-- `build.py`: `python3 build.py` regenera `dist/app.html`.
+- `dist/app.html`: app pronto, publicado como artefato. Uma cópia fica em `../index.html` (raiz do repositório), que o Railway serve direto.
+- `build.py`: `python3 build.py` regenera `dist/app.html` e o `index.html` da raiz.
 - `docs/requisitos-subsidios-nio.md`: requisitos e decisões.
 - `data/`: de-para do checklist de Interrupção e lista de causas reais (MECE).
 
