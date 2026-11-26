@@ -1,0 +1,752 @@
+[
+ {
+  "grupo": "1. Rede e qualidade do serviço",
+  "causa": "DESALINHAMENTO DE SINAL",
+  "usar_quando": "Painel mostra sinal desalinhado/atenuado no ONT ou na rede do cliente"
+ },
+ {
+  "grupo": "1. Rede e qualidade do serviço",
+  "causa": "FALHA MASSIVA DE INFRAESTRUTURA",
+  "usar_quando": "Evento de rede que atingiu vários clientes da região (não vandalismo)"
+ },
+ {
+  "grupo": "1. Rede e qualidade do serviço",
+  "causa": "VANDALISMO EM INFRAESTRUTURA",
+  "usar_quando": "Dano à rede causado por terceiros (corte de cabo, furto). Use no lugar de falha massiva quando a causa for vandalismo"
+ },
+ {
+  "grupo": "1. Rede e qualidade do serviço",
+  "causa": "IMPOSSIBILIDADE TÉCNICA EM ÁREA DE RISCO",
+  "usar_quando": "Equipe técnica não consegue acessar o endereço por restrição de segurança"
+ },
+ {
+  "grupo": "1. Rede e qualidade do serviço",
+  "causa": "MANUTENÇÃO PROGRAMADA COMUNICADA",
+  "usar_quando": "Houve manutenção planejada e o cliente foi avisado antes"
+ },
+ {
+  "grupo": "1. Rede e qualidade do serviço",
+  "causa": "MANUTENÇÃO PROGRAMADA NÃO COMUNICADA",
+  "usar_quando": "Houve manutenção planejada sem aviso prévio comprovado"
+ },
+ {
+  "grupo": "1. Rede e qualidade do serviço",
+  "causa": "REESTABELECIMENTO DENTRO DO PRAZO REGULATÓRIO",
+  "usar_quando": "Serviço voltou dentro do prazo da regulação"
+ },
+ {
+  "grupo": "1. Rede e qualidade do serviço",
+  "causa": "AUSÊNCIA DE SLOT NA REDE",
+  "usar_quando": "Rede sem porta/capacidade disponível no ponto de atendimento"
+ },
+ {
+  "grupo": "1. Rede e qualidade do serviço",
+  "causa": "CDOE/I DANIFICADA",
+  "usar_quando": "Caixa de distribuição (CDOE/I) danificada. Não use se a causa foi vandalismo comprovado"
+ },
+ {
+  "grupo": "1. Rede e qualidade do serviço",
+  "causa": "FALHA DA OPERADORA TERCEIRA",
+  "usar_quando": "Falha atribuída a outra operadora ou a infraestrutura de terceiro"
+ },
+ {
+  "grupo": "1. Rede e qualidade do serviço",
+  "causa": "FALHA SISTÊMICA OU DE INTEGRAÇÃO",
+  "usar_quando": "Gap ou falha de sistema/plataforma interna que impediu o processo"
+ },
+ {
+  "grupo": "1. Rede e qualidade do serviço",
+  "causa": "FALHA DE ACESSO INTERNA",
+  "usar_quando": "Cliente sem acesso por falha em sistema da Nio (portal, app, login)"
+ },
+ {
+  "grupo": "1. Rede e qualidade do serviço",
+  "causa": "VELOCIDADE COMPATÍVEL COM O PLANO",
+  "usar_quando": "Medição mostra velocidade entregue dentro do contratado"
+ },
+ {
+  "grupo": "1. Rede e qualidade do serviço",
+  "causa": "VELOCIDADE NÃO COMPATÍVEL COM O PLANO",
+  "usar_quando": "Medição mostra velocidade abaixo do contratado"
+ },
+ {
+  "grupo": "1. Rede e qualidade do serviço",
+  "causa": "LIMITAÇÃO DE EQUIPAMENTO OU REDE INTERNA DO CLIENTE",
+  "usar_quando": "Problema está no roteador, Wi-Fi, cabeamento ou uso do cliente (inclui uso inadequado)"
+ },
+ {
+  "grupo": "1. Rede e qualidade do serviço",
+  "causa": "AUSÊNCIA DE INCONSISTÊNCIA DE USO",
+  "usar_quando": "Histórico de tráfego/uso não mostra inconsistência"
+ },
+ {
+  "grupo": "1. Rede e qualidade do serviço",
+  "causa": "INSTABILIDADE NÃO IDENTIFICADA",
+  "usar_quando": "Alegação de oscilação sem registro que comprove"
+ },
+ {
+  "grupo": "1. Rede e qualidade do serviço",
+  "causa": "FALHA ISOLADA IDENTIFICADA",
+  "usar_quando": "Houve falha pontual, restrita ao cliente, já resolvida"
+ },
+ {
+  "grupo": "1. Rede e qualidade do serviço",
+  "causa": "EXCESSO DE LIGAÇÕES NÃO LOCALIZADO",
+  "usar_quando": "Alegação de ligações em excesso sem registro de contato"
+ },
+ {
+  "grupo": "1. Rede e qualidade do serviço",
+  "causa": "CONTATO EXCESSIVO ORIGINADO POR PARCEIRO",
+  "usar_quando": "Ligações em excesso feitas por parceiro/terceirizado"
+ },
+ {
+  "grupo": "1. Rede e qualidade do serviço",
+  "causa": "ENDEREÇO FORA DA ÁREA DE COBERTURA",
+  "usar_quando": "Endereço informado está fora da cobertura da rede"
+ },
+ {
+  "grupo": "2. Instalação, visita técnica e equipamento",
+  "causa": "INSTALAÇÃO CONCLUÍDA",
+  "usar_quando": "Instalação realizada e comprovada"
+ },
+ {
+  "grupo": "2. Instalação, visita técnica e equipamento",
+  "causa": "INSTALAÇÃO NÃO REALIZADA",
+  "usar_quando": "Instalação nova não foi concluída. Para visita de reparo, use execução técnica não concluída"
+ },
+ {
+  "grupo": "2. Instalação, visita técnica e equipamento",
+  "causa": "AGENDAMENTO NÃO REALIZADO",
+  "usar_quando": "Não houve agendamento da visita ou instalação"
+ },
+ {
+  "grupo": "2. Instalação, visita técnica e equipamento",
+  "causa": "ORDEM DE SERVIÇO NÃO CRIADA",
+  "usar_quando": "Pedido não gerou OS no sistema"
+ },
+ {
+  "grupo": "2. Instalação, visita técnica e equipamento",
+  "causa": "EXECUÇÃO TÉCNICA NÃO CONCLUÍDA",
+  "usar_quando": "Visita de reparo, mudança ou instalação iniciada e não concluída"
+ },
+ {
+  "grupo": "2. Instalação, visita técnica e equipamento",
+  "causa": "RESPONSÁVEL AUSENTE",
+  "usar_quando": "Técnico foi ao local e não havia responsável (visita improdutiva)"
+ },
+ {
+  "grupo": "2. Instalação, visita técnica e equipamento",
+  "causa": "COLETA AGENDADA NÃO REALIZADA",
+  "usar_quando": "Coleta de equipamento agendada e não executada"
+ },
+ {
+  "grupo": "2. Instalação, visita técnica e equipamento",
+  "causa": "COLETA NÃO AGENDADA",
+  "usar_quando": "Não houve agendamento da coleta de equipamento"
+ },
+ {
+  "grupo": "2. Instalação, visita técnica e equipamento",
+  "causa": "NÃO RETIRADA DE EQUIPAMENTO",
+  "usar_quando": "Equipamento não foi retirado após o cancelamento"
+ },
+ {
+  "grupo": "2. Instalação, visita técnica e equipamento",
+  "causa": "DEVOLUÇÃO NÃO VIABILIZADA PELO AUTOR",
+  "usar_quando": "Autor não entregou ou não permitiu a coleta do equipamento"
+ },
+ {
+  "grupo": "2. Instalação, visita técnica e equipamento",
+  "causa": "ACIDENTE DURANTE ATIVIDADE DE CAMPO",
+  "usar_quando": "Acidente envolvendo equipe de campo"
+ },
+ {
+  "grupo": "2. Instalação, visita técnica e equipamento",
+  "causa": "AMEAÇA EM CAMPO",
+  "usar_quando": "Técnico ameaçado durante o atendimento"
+ },
+ {
+  "grupo": "2. Instalação, visita técnica e equipamento",
+  "causa": "MUDANÇA CONCLUÍDA",
+  "usar_quando": "Mudança de endereço realizada e comprovada"
+ },
+ {
+  "grupo": "2. Instalação, visita técnica e equipamento",
+  "causa": "EQUIPAMENTO COM VÍCIO OU OBSOLETO",
+  "usar_quando": "Equipamento com defeito ou fora de linha"
+ },
+ {
+  "grupo": "2. Instalação, visita técnica e equipamento",
+  "causa": "EQUIPAMENTO OPERANTE",
+  "usar_quando": "Equipamento verificado e funcionando"
+ },
+ {
+  "grupo": "3. Cancelamento",
+  "causa": "CANCELAMENTO NÃO PROCESSADO VIA URA",
+  "usar_quando": "Autor pediu cancelamento pela URA e não foi processado (inclui 'não atendido')"
+ },
+ {
+  "grupo": "3. Cancelamento",
+  "causa": "CANCELAMENTO NÃO PROCESSADO VIA SAC",
+  "usar_quando": "Autor pediu cancelamento pelo SAC e não foi processado (inclui 'não atendido')"
+ },
+ {
+  "grupo": "3. Cancelamento",
+  "causa": "CANCELAMENTO NÃO PROCESSADO VIA SITE",
+  "usar_quando": "Autor pediu cancelamento pelo site e não foi processado (inclui 'não atendido')"
+ },
+ {
+  "grupo": "3. Cancelamento",
+  "causa": "CANCELAMENTO NÃO PROCESSADO VIA APP",
+  "usar_quando": "Autor pediu cancelamento pelo app e não foi processado (inclui 'não atendido')"
+ },
+ {
+  "grupo": "3. Cancelamento",
+  "causa": "CANCELAMENTO NÃO LOCALIZADO",
+  "usar_quando": "Não há registro de pedido de cancelamento em nenhum canal"
+ },
+ {
+  "grupo": "3. Cancelamento",
+  "causa": "PEDIDO DE CANCELAMENTO LOCALIZADO",
+  "usar_quando": "Há registro do pedido de cancelamento (inclui 'confirmado')"
+ },
+ {
+  "grupo": "3. Cancelamento",
+  "causa": "SOLICITAÇÃO DE CANCELAMENTO NÃO FINALIZADA PELO AUTOR",
+  "usar_quando": "Autor iniciou o cancelamento e não concluiu o fluxo"
+ },
+ {
+  "grupo": "3. Cancelamento",
+  "causa": "CANCELAMENTO PROCESSADO",
+  "usar_quando": "Cancelamento efetivado no sistema (inclui 'realizado')"
+ },
+ {
+  "grupo": "3. Cancelamento",
+  "causa": "CANCELAMENTO INDEVIDO",
+  "usar_quando": "Serviço cancelado sem pedido válido do autor"
+ },
+ {
+  "grupo": "3. Cancelamento",
+  "causa": "CANCELAMENTO POR INADIMPLÊNCIA",
+  "usar_quando": "Cancelamento decorrente de inadimplência"
+ },
+ {
+  "grupo": "3. Cancelamento",
+  "causa": "REATIVAÇÃO REALIZADA",
+  "usar_quando": "Serviço reativado após cancelamento ou bloqueio"
+ },
+ {
+  "grupo": "3. Cancelamento",
+  "causa": "DÉBITO ANTERIOR AO CANCELAMENTO",
+  "usar_quando": "Cobrança refere-se a período anterior ao cancelamento"
+ },
+ {
+  "grupo": "3. Cancelamento",
+  "causa": "NÃO HOUVE COBRANÇA",
+  "usar_quando": "Nenhuma cobrança no período contestado (inclui após o cancelamento)"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "COBRANÇA REALIZADA CORRETAMENTE",
+  "usar_quando": "Cobrança confere com contrato e uso, sem renegociação"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "COBRANÇA CONFORME RENEGOCIAÇÃO",
+  "usar_quando": "Valor cobrado confere com o que foi renegociado"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "VALOR DIVERGENTE DA RENEGOCIAÇÃO",
+  "usar_quando": "Valor cobrado difere do renegociado"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "INCONSISTÊNCIA NO VALOR DA COBRANÇA",
+  "usar_quando": "Valor da fatura ou do débito não confere com o devido"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "DIVERGÊNCIA DE CONDIÇÃO COMERCIAL",
+  "usar_quando": "Oferta/condição comercial difere do contratado"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "COBRANÇA INDEVIDA OU SEM CONTRATAÇÃO",
+  "usar_quando": "Cobrança de item que o autor não contratou"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "COBRANÇA INDEVIDA POR LIGAÇÕES",
+  "usar_quando": "Cobrança de ligações não realizadas ou não devidas"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "COBRANÇA POR USO DE CSP DE OUTRA OPERADORA",
+  "usar_quando": "Cobrança decorrente de uso de código de outra operadora"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "COBRANÇA VEXATÓRIA",
+  "usar_quando": "Forma de cobrança que expõe ou constrange o autor"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "COBRANÇA DEVIDA DA PERMANÊNCIA",
+  "usar_quando": "Multa de permanência correta: havia fidelização e benefício"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "COBRANÇA INDEVIDA DA PERMANÊNCIA",
+  "usar_quando": "Multa de permanência sem fidelização ou benefício. Se for área de risco ou sem cobertura, use as causas específicas"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "COBRANÇA DE PERMANÊNCIA EM ÁREA DE RISCO",
+  "usar_quando": "Multa cobrada em endereço de área de risco"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "COBRANÇA DE PERMANÊNCIA SEM COBERTURA",
+  "usar_quando": "Multa cobrada em endereço sem cobertura"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "FIDELIDADE NEGOCIADA COM O CLIENTE",
+  "usar_quando": "Autor aceitou fidelidade, habilitação ou retenção em negociação"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "FIDELIDADE E HABILITAÇÃO INCONSISTENTES",
+  "usar_quando": "Cliente com fidelidade sem habilitação, ou o contrário"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "DÉBITO REGULAR / AUTOR INADIMPLENTE",
+  "usar_quando": "Existe débito regular e o autor está inadimplente (inclui pendência financeira)"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "BLOQUEIO POR INADIMPLÊNCIA",
+  "usar_quando": "Serviço bloqueado por falta de pagamento"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "INEXISTÊNCIA DE DÉBITO EM ABERTO",
+  "usar_quando": "Não há débito em aberto"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "EXISTÊNCIA DE DÉBITO EM ABERTO",
+  "usar_quando": "Há débito em aberto que precisa de tratamento adequado"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "PAGAMENTO NÃO LOCALIZADO",
+  "usar_quando": "Não há registro do pagamento alegado (inclui 'não identificado')"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "FALHA NA COMPENSAÇÃO DO PAGAMENTO",
+  "usar_quando": "Pagamento recebido mas não compensado ou baixado (inclui 'não processado')"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "PAGAMENTO REALIZADO EM ATRASO",
+  "usar_quando": "Pagamento feito após o vencimento"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "PAGAMENTO REALIZADO PELO CLIENTE",
+  "usar_quando": "Pagamento confirmado e correto"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "PAGAMENTO PARCIAL / DÉBITO REMANESCENTE",
+  "usar_quando": "Pagou parte e restou saldo"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "PAGAMENTO DA RENEGOCIAÇÃO NÃO BAIXADO",
+  "usar_quando": "Só para pagamento de acordo/renegociação que não foi baixado"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "PAGAMENTO DA RENEGOCIAÇÃO EM VALOR DIVERGENTE",
+  "usar_quando": "Só para pagamento de renegociação com valor diferente do acordado"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "PAGAMENTO EM CANAL NÃO OFICIAL / FRAUDULENTO",
+  "usar_quando": "Pagamento feito fora dos canais oficiais ou em canal fraudulento"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "ADESÃO AO DÉBITO AUTOMÁTICO PELO CLIENTE",
+  "usar_quando": "Autor aderiu ao débito automático"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "DATA DE VENCIMENTO APLICADA CORRETAMENTE",
+  "usar_quando": "Vencimento aplicado conforme pedido"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "FATURA DISPONIBILIZADA",
+  "usar_quando": "Fatura foi disponibilizada e há prova (inclui confirmação de disponibilização)"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "FATURA NÃO DISPONIBILIZADA",
+  "usar_quando": "Não há prova de disponibilização da fatura"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "CRÉDITO NÃO EFETIVADO",
+  "usar_quando": "Crédito devido não foi lançado"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "VALOR DE CRÉDITO DISPONÍVEL CORRETAMENTE",
+  "usar_quando": "Crédito lançado no valor correto"
+ },
+ {
+  "grupo": "4. Cobrança, permanência e pagamento",
+  "causa": "VALOR DE CRÉDITO DIVERGENTE AO ESPERADO",
+  "usar_quando": "Crédito lançado em valor diferente do esperado"
+ },
+ {
+  "grupo": "5. Negativação",
+  "causa": "NEGATIVAÇÃO INDEVIDA",
+  "usar_quando": "Negativação sem débito devido"
+ },
+ {
+  "grupo": "5. Negativação",
+  "causa": "NEGATIVAÇÃO INDEVIDA APÓS CANCELAMENTO",
+  "usar_quando": "Negativação por débito posterior ao cancelamento"
+ },
+ {
+  "grupo": "5. Negativação",
+  "causa": "NEGATIVAÇÃO INDEVIDA POR FRAUDE CONFIRMADA",
+  "usar_quando": "Negativação decorrente de fraude comprovada"
+ },
+ {
+  "grupo": "5. Negativação",
+  "causa": "INEXISTÊNCIA DE NEGATIVAÇÃO",
+  "usar_quando": "Não há negativação (inclui Serasa Limpa Nome e 'nenhuma restrição localizada')"
+ },
+ {
+  "grupo": "5. Negativação",
+  "causa": "RESTRIÇÃO NO NOME DO TERCEIRO",
+  "usar_quando": "Restrição está no nome de terceiro, não do autor"
+ },
+ {
+  "grupo": "6. Contratação, venda e prova documental",
+  "causa": "CONTRATAÇÃO REALIZADA PELO AUTOR",
+  "usar_quando": "Contratação feita pelo próprio autor"
+ },
+ {
+  "grupo": "6. Contratação, venda e prova documental",
+  "causa": "CONTRATAÇÃO REALIZADA POR TERCEIRO",
+  "usar_quando": "Contratação feita por terceiro, não pelo autor"
+ },
+ {
+  "grupo": "6. Contratação, venda e prova documental",
+  "causa": "VENDA REALIZADA CORRETAMENTE",
+  "usar_quando": "Venda sem irregularidade"
+ },
+ {
+  "grupo": "6. Contratação, venda e prova documental",
+  "causa": "DESVIO DE VENDA IDENTIFICADO",
+  "usar_quando": "Irregularidade na venda atribuída ao vendedor/canal"
+ },
+ {
+  "grupo": "6. Contratação, venda e prova documental",
+  "causa": "VENDA SEM VIABILIDADE OPERACIONAL",
+  "usar_quando": "Venda de produto inviável no endereço"
+ },
+ {
+  "grupo": "6. Contratação, venda e prova documental",
+  "causa": "SERVIÇO/PRODUTO NÃO COMERCIALIZADO",
+  "usar_quando": "Nio não comercializa o serviço ou produto alegado"
+ },
+ {
+  "grupo": "6. Contratação, venda e prova documental",
+  "causa": "AUSÊNCIA DE DOCUMENTOS DA CONTRATAÇÃO",
+  "usar_quando": "Contrato ou aceite da contratação não localizado"
+ },
+ {
+  "grupo": "6. Contratação, venda e prova documental",
+  "causa": "AUSÊNCIA DE DOCUMENTOS PARA ANÁLISE",
+  "usar_quando": "Documentos insuficientes ou não enviados à análise (inclui 'insuficientes' e 'ausência de envio')"
+ },
+ {
+  "grupo": "6. Contratação, venda e prova documental",
+  "causa": "AUSÊNCIA DE DOCUMENTOS DO PARCEIRO",
+  "usar_quando": "Parceiro não forneceu documentos (limitação probatória)"
+ },
+ {
+  "grupo": "6. Contratação, venda e prova documental",
+  "causa": "AUSÊNCIA DE PROVAS DO AUTOR",
+  "usar_quando": "Autor não apresentou prova do que alega"
+ },
+ {
+  "grupo": "6. Contratação, venda e prova documental",
+  "causa": "DADOS DIVERGENTES INFORMADOS",
+  "usar_quando": "Dados ou endereço informados divergem do cadastro"
+ },
+ {
+  "grupo": "7. Cadastro, alteração e titularidade",
+  "causa": "ALTERAÇÃO INDEVIDA",
+  "usar_quando": "Alteração sem pedido válido (genérica). REVISAR: ver pontos em aberto"
+ },
+ {
+  "grupo": "7. Cadastro, alteração e titularidade",
+  "causa": "ALTERAÇÃO INDEVIDA DE ENDEREÇO",
+  "usar_quando": "Endereço alterado sem pedido do autor"
+ },
+ {
+  "grupo": "7. Cadastro, alteração e titularidade",
+  "causa": "ALTERAÇÃO INDEVIDA DE DADOS PESSOAIS",
+  "usar_quando": "Dados pessoais alterados sem pedido do autor"
+ },
+ {
+  "grupo": "7. Cadastro, alteração e titularidade",
+  "causa": "ALTERAÇÃO SOLICITADA PELO AUTOR",
+  "usar_quando": "Alteração foi pedida pelo próprio autor"
+ },
+ {
+  "grupo": "7. Cadastro, alteração e titularidade",
+  "causa": "ALTERAÇÃO NÃO SOLICITADA",
+  "usar_quando": "Alteração sem pedido ou autorização do autor (inclui modificação não autorizada de dados)"
+ },
+ {
+  "grupo": "7. Cadastro, alteração e titularidade",
+  "causa": "SOLICITAÇÃO DE ALTERAÇÃO NÃO IDENTIFICADA",
+  "usar_quando": "Não há registro do pedido de alteração"
+ },
+ {
+  "grupo": "7. Cadastro, alteração e titularidade",
+  "causa": "SOLICITAÇÃO LOCALIZADA E NÃO REALIZADA",
+  "usar_quando": "Há registro do pedido e a alteração não foi feita"
+ },
+ {
+  "grupo": "7. Cadastro, alteração e titularidade",
+  "causa": "ALTERAÇÃO CADASTRAL NÃO REALIZADA",
+  "usar_quando": "Alteração cadastral pedida e não efetivada"
+ },
+ {
+  "grupo": "7. Cadastro, alteração e titularidade",
+  "causa": "ALTERAÇÃO CADASTRAL CONCLUÍDA",
+  "usar_quando": "Alteração cadastral efetivada"
+ },
+ {
+  "grupo": "7. Cadastro, alteração e titularidade",
+  "causa": "ALTERAÇÃO NÃO É POSSÍVEL SISTEMICAMENTE",
+  "usar_quando": "O sistema não permite a alteração pedida"
+ },
+ {
+  "grupo": "7. Cadastro, alteração e titularidade",
+  "causa": "DADOS CADASTRAIS DESATUALIZADOS",
+  "usar_quando": "Cadastro desatualizado"
+ },
+ {
+  "grupo": "7. Cadastro, alteração e titularidade",
+  "causa": "ERRO DE AUTENTICAÇÃO DO USUÁRIO",
+  "usar_quando": "Falha ao autenticar o usuário no atendimento"
+ },
+ {
+  "grupo": "7. Cadastro, alteração e titularidade",
+  "causa": "SOLICITAÇÃO INDEVIDA POR TERCEIRO",
+  "usar_quando": "Terceiro fez pedido em nome do autor"
+ },
+ {
+  "grupo": "7. Cadastro, alteração e titularidade",
+  "causa": "SOLICITAÇÃO INDEVIDA INTERNA",
+  "usar_quando": "Pedido indevido originado em atendimento interno da Nio"
+ },
+ {
+  "grupo": "7. Cadastro, alteração e titularidade",
+  "causa": "SOLICITAÇÃO NÃO FINALIZADA PELO AUTOR (OUTROS PEDIDOS)",
+  "usar_quando": "Autor iniciou um pedido que não é cancelamento e não concluiu"
+ },
+ {
+  "grupo": "7. Cadastro, alteração e titularidade",
+  "causa": "SOLICITAÇÃO DE TRANSFERÊNCIA NÃO LOCALIZADA",
+  "usar_quando": "Não há registro do pedido de transferência de titularidade"
+ },
+ {
+  "grupo": "7. Cadastro, alteração e titularidade",
+  "causa": "TRANSFERÊNCIA SOLICITADA PELO AUTOR",
+  "usar_quando": "Transferência pedida pelo autor"
+ },
+ {
+  "grupo": "7. Cadastro, alteração e titularidade",
+  "causa": "TRANSFERÊNCIA REALIZADA SEM SOLICITAÇÃO",
+  "usar_quando": "Transferência sem pedido do autor"
+ },
+ {
+  "grupo": "7. Cadastro, alteração e titularidade",
+  "causa": "TRANSFERÊNCIA CONCLUÍDA",
+  "usar_quando": "Transferência de titularidade efetivada"
+ },
+ {
+  "grupo": "8. Portabilidade",
+  "causa": "PORTABILIDADE SOLICITADA PELO AUTOR",
+  "usar_quando": "Autor pediu a portabilidade"
+ },
+ {
+  "grupo": "8. Portabilidade",
+  "causa": "PORTABILIDADE NÃO SOLICITADA",
+  "usar_quando": "Portabilidade sem pedido do autor"
+ },
+ {
+  "grupo": "8. Portabilidade",
+  "causa": "SOLICITAÇÃO DE PORTABILIDADE NÃO LOCALIZADA",
+  "usar_quando": "Não há registro do pedido de portabilidade"
+ },
+ {
+  "grupo": "8. Portabilidade",
+  "causa": "PORTABILIDADE CONCLUÍDA",
+  "usar_quando": "Portabilidade efetivada"
+ },
+ {
+  "grupo": "8. Portabilidade",
+  "causa": "FALHA NA PORTABILIDADE",
+  "usar_quando": "Falha no processo pelo lado da Nio"
+ },
+ {
+  "grupo": "8. Portabilidade",
+  "causa": "FALHA NA PORTABILIDADE POR TERCEIRO",
+  "usar_quando": "Falha no processo pelo lado de outra operadora"
+ },
+ {
+  "grupo": "9. Atendimento e comunicação",
+  "causa": "ATENDIMENTO REALIZADO CORRETAMENTE",
+  "usar_quando": "Atendimento sem falha comprovada"
+ },
+ {
+  "grupo": "9. Atendimento e comunicação",
+  "causa": "ATENDIMENTO INADEQUADO",
+  "usar_quando": "Atendimento com falha de conduta ou procedimento"
+ },
+ {
+  "grupo": "9. Atendimento e comunicação",
+  "causa": "ATENDIMENTO OFENSIVO",
+  "usar_quando": "Atendimento com ofensa ao autor"
+ },
+ {
+  "grupo": "9. Atendimento e comunicação",
+  "causa": "ORIENTAÇÕES DIVERGENTES FORNECIDAS AO AUTOR",
+  "usar_quando": "Canais deram informações diferentes"
+ },
+ {
+  "grupo": "9. Atendimento e comunicação",
+  "causa": "COMUNICAÇÃO INCOMPLETA AO AUTOR",
+  "usar_quando": "Informação relevante não foi passada"
+ },
+ {
+  "grupo": "9. Atendimento e comunicação",
+  "causa": "ERRO NA DISPONIBILIZAÇÃO DAS INFORMAÇÕES",
+  "usar_quando": "Informação errada ou indisponível ao autor"
+ },
+ {
+  "grupo": "9. Atendimento e comunicação",
+  "causa": "INFORMAÇÕES CORRETAS DISPONIBILIZADAS NO SITE",
+  "usar_quando": "Site trazia a informação correta"
+ },
+ {
+  "grupo": "9. Atendimento e comunicação",
+  "causa": "CONDUTA INADEQUADA NÃO LOCALIZADA",
+  "usar_quando": "Alegação de conduta inadequada sem registro ou prova (inclui 'não comprovada')"
+ },
+ {
+  "grupo": "9. Atendimento e comunicação",
+  "causa": "PROTOCOLO SEM GRAVAÇÃO",
+  "usar_quando": "Protocolo existe mas não há gravação"
+ },
+ {
+  "grupo": "10. Fraude e dados pessoais",
+  "causa": "FRAUDE EXTERNA POR BOLETO FALSIFICADO",
+  "usar_quando": "Terceiro fraudou boleto e o autor pagou"
+ },
+ {
+  "grupo": "10. Fraude e dados pessoais",
+  "causa": "FRAUDE INTERNA VIA ATENDIMENTO",
+  "usar_quando": "Fraude praticada por meio do atendimento (inclui boleto falsificado)"
+ },
+ {
+  "grupo": "10. Fraude e dados pessoais",
+  "causa": "PHISHING OU LINK MALICIOSO",
+  "usar_quando": "Golpe por link ou mensagem falsa"
+ },
+ {
+  "grupo": "10. Fraude e dados pessoais",
+  "causa": "RESTRIÇÃO CADASTRAL NO SISTEMA - SUSPEITA DE FRAUDE",
+  "usar_quando": "Cadastro bloqueado por suspeita de fraude"
+ },
+ {
+  "grupo": "10. Fraude e dados pessoais",
+  "causa": "VAZAMENTO NÃO COMPROVADO",
+  "usar_quando": "Vazamento de dados alegado e não comprovado"
+ },
+ {
+  "grupo": "10. Fraude e dados pessoais",
+  "causa": "VAZAMENTO IDENTIFICADO",
+  "usar_quando": "Vazamento de dados confirmado"
+ },
+ {
+  "grupo": "10. Fraude e dados pessoais",
+  "causa": "NÃO CUMPRIMENTO DE PEDIDO DE TRATAMENTO",
+  "usar_quando": "Pedido LGPD de tratamento de dados não atendido"
+ },
+ {
+  "grupo": "10. Fraude e dados pessoais",
+  "causa": "DISPONIBILIZAÇÃO DE DADOS CADASTRAIS MEDIANTE ORDEM",
+  "usar_quando": "Dados fornecidos por ordem judicial ou legal"
+ },
+ {
+  "grupo": "11. Jurídico",
+  "causa": "REGULARIDADE JURÍDICA - ILEGITIMIDADE PASSIVA",
+  "usar_quando": "Nio não é a parte legítima do caso"
+ },
+ {
+  "grupo": "11. Jurídico",
+  "causa": "AUSÊNCIA DE NEXO CAUSAL",
+  "usar_quando": "Não há relação entre a conduta da Nio e o dano (inclui 'com o atendimento')"
+ },
+ {
+  "grupo": "11. Jurídico",
+  "causa": "DANO MATERIAL COMPROVADO",
+  "usar_quando": "Dano material do autor comprovado"
+ },
+ {
+  "grupo": "12. Serviços digitais e parceiros",
+  "causa": "STREAMING ATIVADO E FUNCIONANDO",
+  "usar_quando": "Serviço de streaming ativo"
+ },
+ {
+  "grupo": "12. Serviços digitais e parceiros",
+  "causa": "VOUCHER NÃO DISPONIBILIZADO",
+  "usar_quando": "Voucher/benefício digital não entregue"
+ },
+ {
+  "grupo": "12. Serviços digitais e parceiros",
+  "causa": "FALHA NA ATIVAÇÃO DO PARCEIRO",
+  "usar_quando": "Parceiro falhou ao ativar o serviço digital"
+ },
+ {
+  "grupo": "12. Serviços digitais e parceiros",
+  "causa": "FALHA NA ATIVAÇÃO INTERNA",
+  "usar_quando": "Nio falhou ao ativar o serviço digital"
+ },
+ {
+  "grupo": "12. Serviços digitais e parceiros",
+  "causa": "CANCELAMENTO DE SERVIÇO DIGITAL NÃO REALIZADO",
+  "usar_quando": "Cancelamento de serviço digital pedido e não feito"
+ },
+ {
+  "grupo": "13. Sem causa identificada",
+  "causa": "FALHA NÃO IDENTIFICADA",
+  "usar_quando": "Analisou e não encontrou falha (use por último)"
+ }
+]
