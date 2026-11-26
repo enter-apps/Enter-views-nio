@@ -1,0 +1,1176 @@
+<title>Subsídios Nio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap">
+<style>
+/* Layout: lateral escura com as etapas, área de trabalho clara e nota ao vivo à direita.
+   Identidade Nio (manual fev/2026): areia, verde-escuro, verde-neon só em estados ativos e destaques. */
+:root{
+  --bg:#F8F7F0; --surface:#FFFFFF; --ink:#192B1C; --muted:#4F6052; --line:rgba(25,43,28,.13); --soft:#E9F0EA; --soft2:#D6E3D8;
+  --accent:#32E000; --on-accent:#192B1C; --green:#1A7200;
+  --warn-bg:#FDE737; --warn-ink:#4A3F00; --bad:#C0214A; --bad-bg:#FFE3EA; --ok-ink:#145C00;
+  --side:#192B1C; --side-ink:#F8F7F0; --side-mut:#B9CBBD; --side-line:rgba(214,227,216,.16);
+  --panel:#192B1C; --panel-ink:#FFFFFF; --panel-mut:#BFD0C3;
+  --font-d:'BW Gradual','Plus Jakarta Sans',Arial,sans-serif; --font:'Plus Jakarta Sans',Arial,system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0C170E; --surface:#152619; --ink:#F4F6EF; --muted:#AFC1B3; --line:rgba(214,227,216,.15); --soft:#1D3322; --soft2:#274230;
+  --green:#5CF02A; --warn-ink:#FDE737; --warn-bg:#3B3406; --bad:#FF8FA6; --bad-bg:#3C1520; --ok-ink:#7BF04F;
+  --side:#08110A; --panel:#1D3322; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0C170E; --surface:#152619; --ink:#F4F6EF; --muted:#AFC1B3; --line:rgba(214,227,216,.15); --soft:#1D3322; --soft2:#274230;
+  --green:#5CF02A; --warn-ink:#FDE737; --warn-bg:#3B3406; --bad:#FF8FA6; --bad-bg:#3C1520; --ok-ink:#7BF04F;
+  --side:#08110A; --panel:#1D3322; color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.5;margin:0;padding:0;-webkit-font-smoothing:antialiased}
+.app{display:grid;grid-template-columns:288px minmax(0,1fr);min-height:100vh}
+/* barra lateral */
+.side{position:sticky;top:0;height:100vh;background:linear-gradient(180deg,var(--side) 0%,var(--side) 55%,#1F3A22 100%);background-image:var(--sw,none),linear-gradient(180deg,var(--side) 0%,var(--side) 55%,#1F3A22 100%);background-repeat:no-repeat;background-position:right bottom,0 0;background-size:100% auto,100% 100%;color:var(--side-ink);display:flex;flex-direction:column;gap:22px;padding:28px 20px 22px max(24px,env(safe-area-inset-left,0px));overflow:auto}
+.brand{display:flex;flex-direction:column;gap:2px}
+.logo-slot{margin-bottom:12px}.logo-slot img{height:44px;width:auto;display:block}
+.brand .t{font-family:var(--font-d);font-weight:800;font-size:25px;letter-spacing:-.02em;line-height:1.1}
+.brand .s{font-size:13px;color:var(--side-mut)}
+.tagline{display:inline-flex;align-self:flex-start;margin-top:12px;font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;background:transparent;border:1px solid rgba(50,224,0,.55);color:var(--accent);padding:4px 10px;border-radius:999px}
+.brand{padding-bottom:18px;border-bottom:1px solid var(--side-line)}
+.prog{display:flex;flex-direction:column;gap:8px;padding:0 4px}
+.prog .pt{display:flex;justify-content:space-between;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--side-mut)}
+.prog .pt b{color:#fff}
+.prog .trk{height:5px;border-radius:99px;background:rgba(214,227,216,.16);overflow:hidden}
+.prog .trk i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#1A7200,#32E000,#C3FF05);transition:width .35s}
+.steps{display:flex;flex-direction:column;gap:2px;position:relative}
+.step{all:unset;box-sizing:border-box;cursor:pointer;display:flex;gap:13px;align-items:center;padding:10px 12px;border-radius:14px;border:1px solid transparent;color:var(--side-mut);position:relative}
+.step:not(:last-child)::before{content:"";position:absolute;left:26px;top:calc(50% + 15px);height:calc(100% - 28px);width:2px;background:var(--side-line);border-radius:2px}
+.step.done:not(:last-child)::before{background:linear-gradient(180deg,rgba(50,224,0,.8),rgba(50,224,0,.35))}
+.step:hover{color:#fff;background:rgba(255,255,255,.04)}
+.step:focus-visible{outline:3px solid var(--accent);outline-offset:1px}
+.step .num{flex:none;width:30px;height:30px;border-radius:50%;border:1.5px solid var(--side-line);display:grid;place-items:center;font-size:13px;font-weight:800;color:var(--side-mut)}
+.step .stx{display:flex;flex-direction:column;min-width:0}
+.step .stx b{font-size:14.5px;font-weight:700;color:inherit}
+.step .stx small{font-size:12px;opacity:.8}
+.step.done .num{background:rgba(50,224,0,.14);border-color:var(--accent);color:var(--accent)}
+.step.done{color:var(--side-ink)}
+.step[aria-current="step"]{color:#fff}
+.step[aria-current="step"] .num{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.step[aria-current="step"] .stx small{opacity:.85}
+.step.skip{opacity:.45}
+.side .grow{flex:1}
+.side-foot{display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--side-line);padding-top:16px}
+.side-foot .btn{background:transparent;color:var(--side-mut);border-color:transparent;justify-content:flex-start;padding:6px 8px;font-size:13px;min-height:0}
+.side-foot .btn:hover{color:#fff;background:rgba(255,255,255,.05)}
+.side-foot .btn:hover{border-color:var(--accent);color:var(--accent)}
+.side-foot small{color:var(--side-mut);font-size:12px;line-height:1.4}
+/* área principal */
+.main{min-width:0;padding:34px max(32px,env(safe-area-inset-right,0px)) 72px 40px}
+.work{display:grid;grid-template-columns:minmax(0,1fr) 312px;gap:28px;align-items:start;max-width:1280px}
+.hero{margin:0 0 22px}
+.eyebrow{font-size:12.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--green);display:flex;align-items:center;gap:10px}
+.eyebrow::after{content:"";height:3px;width:34px;border-radius:3px;background:var(--accent)}
+.hero h2{font-family:var(--font-d);font-size:clamp(28px,3.2vw,40px);line-height:1.08;font-weight:800;letter-spacing:-.025em;margin:8px 0 8px}
+.hero p{margin:0;color:var(--muted);max-width:64ch;font-size:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:24px;margin-bottom:16px}
+.card.soft{background:var(--soft);border-color:transparent}
+.card>h3,h3{font-family:var(--font-d);font-size:19px;margin:0 0 6px;font-weight:800;letter-spacing:-.01em}
+.btn{font:inherit;font-weight:700;font-size:14.5px;border-radius:12px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);padding:0 18px;cursor:pointer;min-height:44px;display:inline-flex;align-items:center;gap:8px;transition:transform .12s,background .12s,border-color .12s}
+.btn:hover{background:var(--soft)}
+.btn:active{transform:translateY(1px)}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.alt{background:#EEF3EE;border-color:#D6E3D8;color:var(--ink);font-weight:600}
+.btn.alt:hover{background:#E1EBE3;border-color:#C5D6C8}
+.btn .rec{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;background:var(--ink);color:#fff;border-radius:99px;padding:3px 9px;margin-left:4px}
+.pastebtn{align-self:flex-start;margin-top:8px}
+.btn.pri:hover{background:#5CF02A;border-color:#5CF02A}
+.btn.sm{min-height:34px;padding:0 13px;font-size:13px;border-color:var(--line)}
+.btn.sm:hover{border-color:var(--ink)}
+.btn[disabled]{opacity:.4;cursor:not-allowed;pointer-events:none}
+.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible,label.drop:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.banner{margin:0 0 16px;padding:14px 18px;border-radius:16px;background:var(--soft);font-size:14px;display:flex;gap:12px;align-items:flex-start}
+.banner svg{flex:none;margin-top:2px}
+.banner b{font-weight:800}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field>label,.q>label,.lbl{font-weight:700;font-size:14px}
+.lbl.cap{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+input[type=text],input[type=date],input[type=number],select,textarea{font:inherit;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:10px 13px;width:100%;min-height:46px;transition:border-color .12s}
+input:hover,select:hover,textarea:hover{border-color:rgba(25,43,28,.4)}
+textarea{min-height:104px;resize:vertical;line-height:1.5}
+.note,.hint{color:var(--muted);font-size:13px}
+/* respostas */
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{font:inherit;font-weight:700;font-size:14.5px;padding:0 20px;min-height:46px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all .12s}
+.seg button:hover{border-color:var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.seg button[aria-pressed="true"]::before{content:"";width:16px;height:16px;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/contain no-repeat}
+.q{padding:16px 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:10px}
+.q:first-of-type{border-top:0;padding-top:6px}
+.checks{display:flex;flex-direction:column;gap:10px}
+.checks label{display:flex;gap:12px;align-items:center;font-weight:500;font-size:15px;cursor:pointer;padding:12px 14px;border:1.5px solid var(--line);border-radius:14px;background:var(--surface)}
+.checks label:hover{border-color:var(--ink)}
+input[type=checkbox]{width:22px;height:22px;accent-color:#1A7200;flex:none;margin:0}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:5px 11px;border-radius:999px;background:var(--soft2);color:var(--ink);white-space:nowrap}
+.pill.obrig{background:var(--ink);color:var(--bg)}
+.pill.dilig{background:var(--warn-bg);color:var(--warn-ink)}
+.pill.sug{background:var(--soft2)}
+.pill.ok{background:var(--accent);color:var(--on-accent)}
+.pill.bad{background:var(--bad-bg);color:var(--bad)}
+.pill.warn{background:var(--warn-bg);color:var(--warn-ink)}
+/* blocos da triagem */
+.block{margin-bottom:14px;background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.block[open]{border-color:rgba(25,43,28,.28)}
+.block>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:14px;padding:18px 22px}
+.block>summary::-webkit-details-marker{display:none}
+.block>summary .n{width:36px;height:36px;border-radius:50%;background:var(--soft2);color:var(--ink);display:grid;place-items:center;font-weight:800;font-size:15px;flex:none}
+.block.complete>summary .n{background:var(--accent);color:var(--on-accent)}
+.block>summary .tt{display:flex;flex-direction:column;min-width:0}
+.block>summary .tt b{font-family:var(--font-d);font-size:18px;font-weight:800;letter-spacing:-.01em}
+.block>summary .tt small{color:var(--muted);font-size:13px}
+.block>summary .meta{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.block>summary::after{content:"";width:10px;height:10px;border-right:2.5px solid var(--muted);border-bottom:2.5px solid var(--muted);transform:rotate(45deg);margin:0 4px 4px 8px;flex:none;transition:transform .15s}
+.block[open]>summary::after{transform:rotate(-135deg);margin-bottom:-4px}
+.block .body{padding:4px 22px 22px;border-top:1px solid var(--line)}
+.screens{margin-top:18px;display:flex;flex-direction:column;gap:14px}
+.screens>.lbl{font-size:12px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);display:flex;align-items:center;gap:8px}
+.screens>.lbl::after{content:"";flex:1;height:1px;background:var(--line)}
+/* cartão de tela */
+.scr{border:1.5px solid var(--line);border-radius:18px;padding:18px;background:var(--bg);display:flex;flex-direction:column;gap:14px;min-width:0}
+.scr.done{border-color:var(--accent);background:var(--surface)}
+.scr.bad{border-color:var(--bad)}
+.scr .hd{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.scr .hd select{flex:1 1 260px;font-weight:700;background:var(--surface)}
+.scr .why{font-size:12.5px;color:var(--muted)}
+.scr .need{font-size:14px;background:var(--soft);padding:12px 14px;border-radius:14px;display:flex;gap:10px;align-items:flex-start}
+.scr .need svg{flex:none;margin-top:2px;color:var(--green)}
+.drop{border:2px dashed rgba(25,43,28,.28);border-radius:16px;padding:26px 16px;text-align:center;cursor:pointer;color:var(--muted);font-weight:700;background:var(--surface);display:flex;flex-direction:column;align-items:center;gap:6px;transition:all .12s}
+.drop:hover,.drop.over{border-color:var(--green);background:var(--soft);color:var(--ink)}
+.drop svg{color:var(--green)}
+.drop b{font-size:15px;color:var(--ink)}
+.drop small{font-weight:500}
+.prev{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:18px;align-items:start}
+.prev img{width:100%;border-radius:12px;border:1px solid var(--line);display:block;background:#fff;cursor:zoom-in}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:13.5px}
+.chk .dt{flex:none;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:800;margin-top:1px}
+.chk.ok .dt{background:var(--accent);color:var(--on-accent)} .chk.warn .dt{background:var(--warn-bg);color:var(--warn-ink)} .chk.bad .dt{background:var(--bad);color:#fff} .chk.na .dt{background:var(--soft2);color:var(--muted)}
+.counter{font-size:12px;color:var(--muted);text-align:right}
+.counter.low{color:var(--bad);font-weight:700}
+.add{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+.add .field{flex:1 1 280px}
+.choice{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.choice button{font:inherit;text-align:left;border:1.5px solid var(--line);border-radius:18px;background:var(--surface);color:var(--ink);padding:16px 18px;cursor:pointer;display:flex;flex-direction:column;gap:8px;min-height:92px;position:relative;transition:all .12s}
+.choice button:hover{border-color:var(--ink)}
+.choice button[aria-pressed="true"]{border-color:var(--accent);background:var(--soft);box-shadow:inset 0 0 0 2px var(--accent)}
+.choice b{font-size:15px;font-weight:800;padding-right:26px}
+.choice .pill{white-space:normal;align-self:flex-start;font-size:10.5px;line-height:1.25}
+.choice button::after{content:"";position:absolute;top:16px;right:16px;width:20px;height:20px;border-radius:50%;border:2px solid var(--line)}
+.choice button[aria-pressed="true"]::after{background:var(--accent);border-color:var(--accent);box-shadow:inset 0 0 0 4px var(--soft)}
+.sugs{display:flex;gap:8px;flex-wrap:wrap}
+.sugs button{font:inherit;font-weight:600;font-size:13.5px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);padding:8px 14px;cursor:pointer}
+.sugs button:hover{border-color:var(--ink)}
+.sugs button.hot{border-color:var(--green);font-weight:700}
+.sugs button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+/* nota */
+aside.score{position:sticky;top:22px}
+.scorecard{--panel-mut:#3C4C3F;--sc-line:rgba(25,43,28,.16);background:linear-gradient(160deg,#D6E3D8 0%,#E4EDE5 100%);color:#192B1C;border-radius:24px;padding:24px;display:flex;flex-direction:column;gap:14px;border:1px solid #C3D5C6}
+.scorecard .lbl{color:var(--panel-mut);font-size:12px;letter-spacing:.09em;text-transform:uppercase}
+.ringwrap{display:flex;align-items:center;gap:18px}
+.ring{position:relative;width:118px;height:118px;flex:none}
+.ring svg{transform:rotate(-90deg)}
+.ring .v{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--font);font-weight:300;font-size:42px;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.scorecard .msg{font-size:14px;line-height:1.4;color:var(--panel-mut)}
+.scorecard .msg b{color:#192B1C;display:block;font-size:16px;margin-bottom:2px}
+.dim{display:grid;grid-template-columns:1fr auto;gap:3px 10px;font-size:12.5px;color:var(--panel-mut)}
+.dim b{color:#192B1C;font-variant-numeric:tabular-nums}
+.bar{height:7px;border-radius:99px;background:rgba(25,43,28,.13);overflow:hidden;grid-column:1/-1}
+.bar i{display:block;height:100%;border-radius:99px;transition:width .35s}
+.ib{position:relative;display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--panel-mut);background:transparent;color:var(--panel-mut);font:700 11px/1 var(--font-b,inherit);padding:0;cursor:pointer;flex:none;margin-left:6px;vertical-align:middle}
+.ib:hover,.ib:focus-visible,.ib.open{border-color:#1A7200;color:#1A7200;outline:none}
+.ib .tp{display:none;position:absolute;right:-10px;top:26px;width:228px;font-weight:500;padding:10px 12px;border-radius:12px;background:#F8F7F0;color:#192B1C;font:500 12px/1.45 var(--font-b,inherit);text-align:left;box-shadow:0 10px 30px rgba(0,0,0,.35);z-index:20;letter-spacing:0;text-transform:none}
+.ib:hover .tp,.ib:focus-visible .tp,.ib.open .tp{display:block}
+.dim .lb{display:flex;align-items:center}
+.scorecard .msg .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#F4436C;margin-right:8px;vertical-align:middle}
+.tips{margin:0;padding-left:18px;font-size:13px;color:var(--panel-mut)}
+.tips li{margin:4px 0}
+.tips li::marker{color:#1A7200}
+.scorecard hr{border:0;border-top:1px solid var(--sc-line);margin:2px 0;width:100%}
+.review table{width:100%;border-collapse:collapse;font-size:14px}
+.review th,.review td{text-align:left;padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.review th{color:var(--muted);font-weight:700;width:34%}
+.review .tw{overflow-x:auto}
+.blockers{background:var(--bad-bg);color:var(--bad);border-radius:18px;padding:16px 20px;font-size:14px;margin-bottom:16px}
+.blockers ul{margin:8px 0 0;padding-left:18px}
+.blockers li{margin:4px 0}
+.blockers a{color:inherit;font-weight:800;cursor:pointer;text-decoration:underline}
+.dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:16px 0 8px}
+.dl .btn{white-space:nowrap;justify-content:center;min-height:56px;font-size:15px}
+.footnav{display:flex;justify-content:space-between;gap:10px;margin-top:10px}
+dialog.zoom{border:0;background:transparent;padding:0;max-width:96vw;max-height:94vh}
+dialog.zoom::backdrop{background:rgba(8,17,10,.82)}
+dialog.zoom img{max-width:96vw;max-height:94vh;border-radius:10px;background:#fff}
+.tipbox{padding:0;overflow:hidden}
+.tipbox summary{cursor:pointer;font-weight:800;padding:16px 22px;display:flex;align-items:center;gap:10px;list-style:none}
+.tipbox summary::-webkit-details-marker{display:none}
+.tipbox ul{margin:0;padding:0 22px 18px 42px;font-size:14px;color:var(--muted)}
+.tipbox li{margin:5px 0}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(22px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:14px;font-weight:700;font-size:14px;z-index:20;max-width:90vw}
+.mobscore{display:none}
+@media (max-width:1180px){
+  .work{grid-template-columns:minmax(0,1fr)}
+  aside.score{position:static;order:-1}
+  .scorecard .full{display:none}
+  .ringwrap{gap:14px}.ring{width:84px;height:84px}.ring .v{font-size:30px}
+}
+@media (max-width:900px){
+  .app{display:block}
+  .side{position:sticky;top:0;z-index:5;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px))}
+  .brand .t{font-size:19px}.brand .s,.tagline{display:none}
+  .steps{flex-direction:row;overflow-x:auto;width:100%;order:3;gap:6px;padding-bottom:2px}
+  .step{padding:7px 12px 7px 8px;white-space:nowrap}
+  .step .stx small{display:none}.step .num{width:26px;height:26px}
+  .side .grow{display:none}
+  .side-foot{flex-direction:row;border:0;padding:0;margin-left:auto;gap:6px}.side-foot small{display:none}
+  .main{padding:22px max(16px,env(safe-area-inset-right,0px)) 56px max(16px,env(safe-area-inset-left,0px))}
+}
+@media (max-width:640px){.grid2{grid-template-columns:minmax(0,1fr)}.prev{grid-template-columns:minmax(0,1fr)}.card{padding:18px}.block>summary{padding:14px 16px;flex-wrap:wrap}.block>summary .meta{margin-left:50px;justify-content:flex-start}.block .body{padding:4px 16px 18px}.hero p{font-size:15px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+@media (max-width:900px){.side{background-image:linear-gradient(180deg,var(--side),var(--side))}.step::before,.prog{display:none}.brand{border-bottom:0;padding-bottom:0}}
+</style>
+
+<div class="app">
+  <aside class="side">
+    <div class="brand">
+      <div class="logo-slot" id="logoSlot"></div>
+      <div class="t">Subsídios Nio</div>
+      <div class="s">Montagem guiada do dossiê</div>
+      <span class="tagline">Interrupção · versão 1</span>
+    </div>
+    <div class="prog" id="prog"></div>
+    <nav class="steps" id="nav" aria-label="Etapas"></nav>
+    <div class="grow"></div>
+    <div class="side-foot">
+      <button class="btn sm" id="demo">Carregar caso de exemplo</button>
+      <button class="btn sm" id="reset">Limpar tudo</button>
+      <small>Protótipo para validação. Os dados do exemplo são fictícios.</small>
+    </div>
+  </aside>
+  <div class="main"><div class="work">
+    <main id="app"></main>
+    <aside class="score" id="score" aria-live="polite"></aside>
+  </div></div>
+</div>
+<dialog class="zoom" id="zoom"><img alt="Tela ampliada"></dialog>
+<div class="toast" id="toast" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.1.1/tesseract.min.js"></script>
+<script>
+const DATA = __DATA__;
+const SUBOBJETOS = ["EXCESSO DE LIGAÇÕES","INTERRUPÇÃO","INSTABILIDADE","CONTESTAÇÃO DE PERMANÊNCIA","ALTERAÇÃO DE DATA DE VENCIMENTO","PAGAMENTO NÃO RECONHECIDO","VALOR DIVERGENTE","CANCELAMENTO NÃO REALIZADO","MUDANÇA NÃO REALIZADA","INCONSISTÊNCIA DE INFORMAÇÃO","COLETA DE EQUIPAMENTO","CONTRATAÇÃO NÃO RECONHECIDA","ALTERAÇÃO DE CADASTRO NÃO REALIZADA","NEGATIVAÇÃO APÓS PAGAMENTO","VELOCIDADE INFERIOR","SERVIÇO DIGITAL","INSTALAÇÃO NÃO REALIZADA","CONDUTA INADEQUADA - ATENDIMENTO","INCONSISTÊNCIA NA PORTABILIDADE","SUPERENDIVIDAMENTO","TRATAMENTO DE DADOS","FATURA NÃO RECEBIDA","VAZAMENTO DE DADOS","DÉBITO NÃO RECONHECIDO","QUEBRA DE SIGILO","TRANSFERÊNCIA DE TITULARIDADE","NÃO DEFINIDO","CANCELAMENTO NÃO SOLICITADO","BOLETO FALSO","ALUGUEL DE INFRAESTRUTURA","ACIDENTE COM INFRAESTRUTURA","REMOÇÃO DE CABOS OU EQUIPAMENTOS","DANO EM ATENDIMENTO","RENEGOCIAÇÃO DESCUMPRIDA","LINK FALSO","DESVIO DE VENDA","COBRANÇA APÓS CANCELAMENTO","ALTERAÇÃO DE CADASTRO INDEVIDA","NEGATIVAÇÃO APÓS CANCELAMENTO","AUSÊNCIA DE POSITIVAÇÃO","SEM VIABILIDADE TÉCNICA","CONDUTA INADEQUADA - CAMPO"];
+const TIPOS_CAUSA = ["Fibra interna (cliente)","Uso inadequado","Desalinhamento de sinal","Falha na ONT (sem energia ou defeito)","Drop rompido (cabo cortado, mordido, roído, puxado, atenuado ou rompido por caminhão de carga alta na rua)","Massiva Infraestrutura","Massiva CDOE/I danificada","Manutenção programada","Manutenção não programada","Massiva Vandalismo","Inadimplência","Área de risco","Falha não identificada"];
+const CONCLUSOES = ["Autor tem razão","Autor não tem razão – provas robustas","Autor não tem razão – provas insuficientes"];
+
+/* Catálogo de nomes de tela (nome da tela = sistema). v:false = nome ainda a validar com a Nio. */
+const CAT = [
+ {n:"Tela Única – Dados do Contrato",v:1},{n:"Tela Única – Histórico de Atendimento",v:1},{n:"Tela Única – Evento Massivo",v:1},
+ {n:"Siebel – Dados do Contrato",v:1},{n:"Siebel – Protocolos de Atendimento",v:1},{n:"Siebel – Chamados",v:1},{n:"Siebel – Detalhe do TT",v:0},
+ {n:"Salesforce – Dados do Contrato",v:1},{n:"Salesforce – Protocolos de Atendimento",v:1},
+ {n:"CEC – Sinal",v:1},{n:"CEC – Histórico de interrupções",v:0},{n:"CEC – Área de risco",v:0},
+ {n:"NETQ – Equipamentos e qualidade",v:1},{n:"NAF – Estabilidade",v:0},
+ {n:"Portal V.tal – Diagnóstico do Sinal",v:1},{n:"Portal V.tal – Visita técnica",v:1},{n:"Portal V.tal – Validação de Área de Risco",v:1},{n:"Portal V.tal – Manutenção programada",v:0},
+ {n:"Portal Operacional V.tal – Chamados",v:0},{n:"Portal BI – Área de Risco",v:1},
+ {n:"Faturas em Aberto / Histórico de Pagamento",v:1},{n:"Serasa – Consulta de negativação",v:1},
+ {n:"Comunicação ao cliente (SMS, e-mail ou app)",v:0},{n:"RST assinado",v:0},{n:"Evidência de ausência de cadastro",v:0}
+];
+const COMUNS = ["Tela Única – Dados do Contrato","Siebel – Dados do Contrato","Salesforce – Dados do Contrato","Siebel – Protocolos de Atendimento","Salesforce – Protocolos de Atendimento"];
+const CONTRATO_GRP = new Set(COMUNS.slice(0,3));
+
+const IC={
+ info:'<path d="M12 11v5"/><path d="M12 7.5h.01"/><circle cx="12" cy="12" r="9"/>',
+ upload:'<path d="M12 16V5"/><path d="M7.5 9.5L12 5l4.5 4.5"/><path d="M4.5 15v3.5a1.5 1.5 0 001.5 1.5h12a1.5 1.5 0 001.5-1.5V15"/>',
+ check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+ alert:'<path d="M12 4l9 16H3z"/><path d="M12 10v4.5"/><path d="M12 17.5h.01"/>',
+ tip:'<path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 00-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0012 3z"/>',
+ arrow:'<path d="M5 12h14"/><path d="M13 6l6 6-6 6"/>',
+ back:'<path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/>',
+ file:'<path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/>',
+ clip:'<rect x="8" y="3" width="8" height="4" rx="1.2"/><path d="M16 5h2a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V7a2 2 0 012-2h2"/>',
+ spark:'<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/>'
+};
+const ic=(n,sz=20)=>`<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[n]}</svg>`;
+/* Logotipo oficial da Nio: ainda não recebido. Quando chegar, colocar aqui as versões (data URI). Enquanto estiver vazio, nenhum logo é desenhado. */
+const LOGO=__ASSETS__;
+try{document.documentElement.style.setProperty('--sw','url('+LOGO.side.url+')')}catch(e){}
+(function(){const el=document.getElementById('logoSlot');if(el)el.innerHTML='<img src="'+LOGO.neon.url+'" alt="Nio">'})();
+const $ = s=>document.querySelector(s);
+const esc = s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const today = ()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const fmtD = d=>d?d.split('-').reverse().join('/'):'__/__/____';
+const daysBetween=(a,b)=>Math.round((new Date(b)-new Date(a))/86400000)+1;
+
+/* ---------- Estado ---------- */
+function blank(){return{step:0,meta:{data:today(),idPasta:'',idSub:'',sub:'INTERRUPÇÃO',subOrig:'INTERRUPÇÃO',subMotivo:'',corrigindo:false},
+  cad:{tem:null,checks:{linha:false,nome:false,cpf:false,contrato:false}},comuns:[],A:{},scr:{},
+  fin:{conclusao:'',concMotivo:'',causa:'',causaOutra:'',fund:'',risco:'',riscoEsp:'',legit:'',legitEsp:'',c1:false,c2:false},demo:false}}
+let S = blank();
+
+/* ---------- Perguntas de Interrupção (fonte: 01. Interrupcao.xlsx) ---------- */
+const SNNI=['Sim','Não','Não identificado'], SN=['Sim','Não'];
+const q=(id,t,type,o={})=>({id,t,type,...o});
+const BLOCOS = [
+ {id:'b1',t:'Caracterização do evento',qs:[
+  q('relata','O cliente relata interrupção total do serviço?','sn',{hint:A=>A.relata==='Não'?'Se o cliente relata lentidão ou oscilação, o subobjeto pode ser Instabilidade. Revise o subobjeto na etapa 1.':''}),
+  q('alegDe','Período da interrupção alegada pelo cliente – de','date'),
+  q('alegAte','Período da interrupção alegada pelo cliente – até','date',{hint:A=>(A.alegDe&&A.alegAte&&A.alegAte<A.alegDe)?'A data final é anterior à inicial.':''}),
+  q('chamados','Há registro de chamados técnicos relacionados à interrupção?','snni'),
+  q('qtdCh','Quantidade de chamados','num',{show:A=>A.chamados==='Sim'}),
+  q('evDoc','Há evidência documental do atendimento?','snni'),
+  q('tipoEv','Tipo de evidência','sel',{opts:['Salesforce','Siebel','Tela Única'],show:A=>A.evDoc==='Sim'}),
+ ]},
+ {id:'b2',t:'Identificação da causa',qs:[
+  q('evTec','Há evidência técnica da causa da interrupção?','snni'),
+  q('tipoCausa','Tipo de causa identificada','sel',{opts:TIPOS_CAUSA,show:A=>A.evTec==='Sim'}),
+  q('falhaDe','Identificada falha, informar o período – de','date',{show:A=>A.evTec==='Sim'&&A.tipoCausa&&!/não identificada/i.test(A.tipoCausa)}),
+  q('falhaAte','Identificada falha, informar o período – até','date',{show:A=>A.evTec==='Sim'&&A.tipoCausa&&!/não identificada/i.test(A.tipoCausa)}),
+  q('menor10','Período menor que 10 dias?','auto',{show:A=>A.falhaDe&&A.falhaAte,calc:A=>{const d=daysBetween(A.falhaDe,A.falhaAte);return d>0?(d<10?'Sim':'Não')+' ('+d+' dia'+(d>1?'s':'')+')':'Datas inconsistentes'}}),
+  q('coincide','O período da falha coincide com o período alegado pelo cliente?','snni',{show:A=>A.falhaDe&&A.falhaAte,hint:A=>{if(!(A.falhaDe&&A.falhaAte&&A.alegDe&&A.alegAte))return'';const ov=!(A.falhaAte<A.alegDe||A.falhaDe>A.alegAte);return 'Pelas datas informadas: '+(ov?'há sobreposição entre os períodos.':'os períodos não se sobrepõem.')}}),
+  q('estab','Há evidência técnica de estabilidade do serviço no período alegado?','snni'),
+  q('fontes','Fontes da estabilidade','multi',{opts:['CEC','NETQ','NAF'],show:A=>A.estab==='Sim'}),
+  q('atuacao','Houve atuação técnica para correção do problema?','snni'),
+  q('dataAtu','Data da atuação','date',{show:A=>A.atuacao==='Sim'}),
+  q('resAtu','Resultado da atuação','sel',{opts:['Resolvido','Parcial','Não resolvido'],show:A=>A.atuacao==='Sim'}),
+  q('normal','Após atuação técnica, houve normalização do serviço?','snni',{show:A=>A.atuacao==='Sim'}),
+ ]},
+ {id:'b3',t:'Falha operacional (Nio)',qs:[
+  q('desal','Foi identificado desalinhamento de sinal?','snni'),
+  q('infra','Há evidência de falha na infraestrutura?','snni'),
+  q('massiva','Foi identificado evento massivo por falha de rede?','snni'),
+  q('tipoMass','Tipo de massiva','sel',{opts:['Infraestrutura','CDOE/I danificada'],show:A=>A.massiva==='Sim'}),
+ ]},
+ {id:'b4',t:'Manutenção programada',qs:[
+  q('manut','A interrupção decorre de manutenção programada?','snni'),
+  q('janela','A manutenção estava dentro da janela informada ao cliente?','snni',{show:A=>A.manut==='Sim'}),
+  q('comunic','A manutenção foi comunicada previamente ao cliente?','snni',{show:A=>A.manut==='Sim'}),
+  q('provaCom','Há prova da comunicação?','snni',{show:A=>A.manut==='Sim'&&A.comunic==='Sim'}),
+  q('canal','Canal da comunicação','sel',{opts:['SMS','E-mail','App','Outros'],show:A=>A.manut==='Sim'&&A.comunic==='Sim'}),
+ ]},
+ {id:'b5',t:'Prazo Anatel',qs:[
+  q('restab','O serviço foi restabelecido dentro do prazo regulatório (Anatel)?','snni'),
+  q('tempo','Tempo de interrupção (horas)','num'),
+  q('evTempo','Há evidência técnica do tempo de restabelecimento?','snni'),
+  q('provaHora','Há prova do horário de início e fim da interrupção?','snni'),
+ ]},
+ {id:'b6',t:'Excludentes de responsabilidade',qs:[
+  q('vand','Há evidência de vandalismo na rede?','snni'),
+  q('bo','Há boletim de ocorrência?','snni',{hint:A=>A.bo==='Sim'?'O BO fica por fora e não entra no dossiê. Cite número e data na fundamentação.':''}),
+  q('dano','Há prova técnica do dano externo?','snni'),
+  q('risco','Endereço classificado como área de risco?','snni'),
+  q('evRisco','Há evidência formal?','sel',{opts:['BI','Boletim de ocorrência','Outros'],show:A=>A.risco==='Sim'}),
+  q('impCom','A impossibilidade de atuação foi comunicada ao cliente?','snni',{show:A=>A.risco==='Sim'}),
+  q('provaImp','Há prova da comunicação da impossibilidade?','snni',{show:A=>A.risco==='Sim'&&A.impCom==='Sim'}),
+  q('inadimp','O cliente permaneceu inadimplente no período da interrupção?','snni'),
+  q('debito','Há débito constituído no período de interrupção?','snni',{show:A=>A.inadimp==='Sim'}),
+  q('devido','Débito é devido?','snni',{show:A=>A.debito==='Sim'}),
+  q('negat','Há negativação constituída no período de interrupção?','snni',{show:A=>A.inadimp==='Sim'}),
+  q('credito','Houve crédito ou desconto referente ao período de interrupção?','snni'),
+ ]},
+ {id:'b7',t:'Conduta do cliente',qs:[
+  q('amb','Há evidência técnica de que a causa decorre do ambiente interno do cliente?','snni'),
+  q('rst','Há prova técnica (RST assinado)?','snni',{show:A=>A.amb==='Sim'}),
+ ]},
+ {id:'b8',t:'Prova técnica',qs:[
+  q('testes','Foram realizados testes técnicos?','snni'),
+  q('resTestes','Resultado dos testes','sel',{opts:['Normal','Instável','Sem sinal','Inconclusivo'],show:A=>A.testes==='Sim'}),
+ ]},
+ {id:'b9',t:'Análise cruzada',qs:[
+  q('pCoin','O período da interrupção coincide com o alegado pelo cliente?','snni'),
+  q('diverg','Há divergência entre o relato e os dados técnicos?','snni'),
+ ]},
+];
+
+/* ---------- Telas esperadas por resposta ---------- */
+const NIV={obrig:3,dilig:2,sug:1};
+function expectedScreens(A){
+  const out=new Map(); const order=[];
+  const add=(blk,key,nome,nivel,mostrar,kw,draft,extra={})=>{
+    if(out.has(key)){const e=out.get(key); if(NIV[nivel]>NIV[e.nivel])e.nivel=nivel; if(nivel!=='dilig'&&!e.mostrar.includes(mostrar))e.mostrar.push(mostrar); if(!e.blocos.includes(blk))e.blocos.push(blk); return;}
+    out.set(key,{key,nome,nivel,mostrar:[mostrar],kw,draft,blocos:[blk],...extra}); order.push(key);
+  };
+  const per=`${fmtD(A.alegDe)} a ${fmtD(A.alegAte)}`;
+  // Bloco 1
+  const nmEv={'Salesforce':'Salesforce – Protocolos de Atendimento','Siebel':'Siebel – Chamados','Tela Única':'Tela Única – Histórico de Atendimento'}[A.tipoEv]||'Siebel – Chamados';
+  if(A.chamados==='Sim') add(1,'atend',nmEv,'obrig','Chamados técnicos ligados à interrupção, com data de abertura, tipo e situação.',['chamado','protocolo','tecnico','atendimento'],
+    ()=>`Registro de ${A.qtdCh||'N'} chamado(s) técnico(s) relacionados à interrupção alegada (${per}). A tela mostra data de abertura, tipo e situação de cada chamado.`);
+  else if(A.chamados==='Não'||A.chamados==='Não identificado') add(1,'atend_d','Siebel – Protocolos de Atendimento','dilig','Histórico do período alegado, sem chamado técnico (prova de diligência).',['protocolo','atendimento'],
+    ()=>`Consulta ao histórico de atendimento do período ${per}. Não consta chamado técnico relacionado à interrupção.`);
+  // Bloco 2
+  const tc=A.tipoCausa||'';
+  if(A.evTec==='Sim'){
+    if(/Desalinhamento/.test(tc)){
+      add(2,'cec','CEC – Sinal','obrig','Potência RX da ONT/OLT e status da fibra indicando desalinhamento.',['cec','sinal','potencia','ont','fibra'],()=>`Tela CEC mostra potência fora do padrão na ONT do cliente${A.falhaDe?`, no período de ${fmtD(A.falhaDe)} a ${fmtD(A.falhaAte)}`:''}, compatível com desalinhamento de sinal.`);
+      add(2,'diag','Portal V.tal – Diagnóstico do Sinal','sug','Diagnóstico do sinal com data e hora de execução.',['diagnostico','sinal','vtal'],()=>'Diagnóstico de sinal no Portal V.tal, com data e hora de execução, confirmando a condição do acesso.');
+    }
+    if(/ONT/.test(tc)) add(2,'netq','NETQ – Equipamentos e qualidade','obrig','Estado da ONT e dos equipamentos (energia, defeito).',['netq','ont','equipamento'],()=>'NETQ mostra o estado da ONT do cliente (sem energia ou com defeito) no período da interrupção.');
+    if(/Drop/.test(tc)) add(2,'visita','Portal V.tal – Visita técnica','obrig','Registro técnico do rompimento do drop, com data e resultado.',['visita','tecnico','drop','ordem'],()=>'Registro técnico no Portal V.tal indicando rompimento do drop e a ação executada.');
+    if(/Massiva/.test(tc)) add(2,'massivo','Tela Única – Evento Massivo','obrig','Evento massivo que atingiu o endereço, com início e fim.',['massivo','evento','inicio','fim'],()=>`Evento massivo registrado${A.tipoMass?` (${A.tipoMass})`:''}, que atingiu o endereço do cliente${A.falhaDe?` entre ${fmtD(A.falhaDe)} e ${fmtD(A.falhaAte)}`:''}.`);
+    if(/Manutenção/.test(tc)) add(2,'manut','Portal V.tal – Manutenção programada','obrig','Manutenção com janela de data e hora e região atendida.',['manutencao','programada','janela'],()=>'Registro da manutenção no Portal V.tal, com janela de data e hora e região afetada.');
+    if(/Área de risco/.test(tc)){
+      add(2,'risco_v','Portal V.tal – Validação de Área de Risco','obrig','Endereço classificado como área de risco, com data da consulta.',['risco','area','vtal','impedimento'],()=>'Portal V.tal mostra que o endereço do cliente está em área de risco, o que impede a atuação técnica.',{ou:'risco'});
+      add(2,'risco_c','CEC – Área de risco','sug','Indicação de área de risco no CEC.',['cec','risco','area'],()=>'CEC indica área de risco para o endereço do cliente.',{ou:'risco'});
+    }
+    if(/Inadimpl/.test(tc)) add(2,'pagto','Faturas em Aberto / Histórico de Pagamento','obrig','Faturas em aberto, vencimento, valor e mês de referência.',['fatura','vencimento','valor','pagamento','aberto'],()=>'Histórico de pagamento com faturas em aberto no período da interrupção.');
+    if(/não identificada/i.test(tc)) add(2,'cec','CEC – Sinal','dilig','Consulta do sinal no período (prova de diligência).',['cec','sinal'],()=>'Consulta ao CEC no período alegado, sem identificação de falha.');
+  }
+  if(A.estab==='Sim'){
+    (A.fontes||[]).forEach(f=>{
+      if(f==='CEC') add(2,'cec','CEC – Sinal','obrig','Estabilidade do sinal no período (status da fibra, potência, interrupções e reboots).',['cec','sinal','potencia','interrupcao','reboot'],()=>`Tela CEC do período ${per}: sem interrupções registradas e com sinal estável.`);
+      if(f==='NETQ') add(2,'netq','NETQ – Equipamentos e qualidade','obrig','Qualidade e estabilidade dos equipamentos no período.',['netq','equipamento','qualidade'],()=>`NETQ do período ${per} indica equipamentos estáveis, sem quedas.`);
+      if(f==='NAF') add(2,'naf','NAF – Estabilidade','obrig','Estabilidade do serviço no período.',['naf','estabilidade'],()=>`NAF do período ${per} indica serviço estável.`);
+    });
+  } else if(A.estab==='Não'||A.estab==='Não identificado') add(2,'cec','CEC – Sinal','dilig','Consulta do sinal mesmo sem evidência de estabilidade (prova de diligência).',['cec','sinal'],()=>`Consulta ao CEC do período ${per}, registrada como prova de diligência.`);
+  if(A.atuacao==='Sim') add(2,'visita','Portal V.tal – Visita técnica','obrig','Visita ou ordem com data, técnico e resultado.',['visita','tecnico','ordem','resultado'],()=>`Visita técnica de ${fmtD(A.dataAtu)} com resultado "${A.resAtu||'—'}"${A.normal?`; normalização do serviço: ${A.normal}`:''}.`);
+  // Bloco 3
+  if(A.desal==='Sim'){
+    add(3,'cec','CEC – Sinal','obrig','Potência RX da ONT/OLT e status da fibra indicando desalinhamento.',['cec','sinal','potencia','ont','fibra'],()=>'Tela CEC mostra potência fora do padrão, compatível com desalinhamento de sinal.');
+    add(3,'diag','Portal V.tal – Diagnóstico do Sinal','sug','Diagnóstico do sinal com data e hora de execução.',['diagnostico','sinal','vtal'],()=>'Diagnóstico de sinal no Portal V.tal, com data e hora de execução.');
+  } else if(A.desal==='Não'||A.desal==='Não identificado') add(3,'cec','CEC – Sinal','dilig','Consulta do sinal sem desalinhamento (prova de diligência).',['cec','sinal'],()=>'Consulta ao CEC sem desalinhamento de sinal.');
+  if(A.infra==='Sim') add(3,'infra','Portal Operacional V.tal – Chamados','obrig','Chamado ou ocorrência de falha na infraestrutura.',['chamado','infraestrutura','vtal','ocorrencia'],()=>'Registro no Portal Operacional V.tal de falha na infraestrutura que atende o endereço.');
+  if(A.massiva==='Sim') add(3,'massivo','Tela Única – Evento Massivo','obrig','Evento massivo que atingiu o endereço, com início e fim.',['massivo','evento','inicio','fim'],()=>`Evento massivo registrado${A.tipoMass?` (${A.tipoMass})`:''}.`);
+  else if(A.massiva==='Não'||A.massiva==='Não identificado') add(3,'massivo','Tela Única – Evento Massivo','dilig','Aba de evento massivo sem ocorrência no período (prova de diligência).',['massivo','evento'],()=>'Aba de evento massivo sem ocorrência para o endereço no período.');
+  // Bloco 4
+  if(A.manut==='Sim'){
+    add(4,'manut','Portal V.tal – Manutenção programada','obrig','Manutenção com janela de data e hora e região atendida.',['manutencao','programada','janela'],()=>'Registro da manutenção programada, com janela de data e hora.');
+    if(A.comunic==='Sim'&&A.provaCom==='Sim') add(4,'comcli',`Comunicação ao cliente (SMS, e-mail ou app)`,'obrig',`Comunicação prévia da manutenção${A.canal?` por ${A.canal}`:''}, com data e conteúdo.`,['manutencao','data','cliente','mensagem'],()=>`Comunicação prévia da manutenção enviada ao cliente${A.canal?` por ${A.canal}`:''}.`,{tipo:'documento'});
+  }
+  // Bloco 5
+  if(A.evTempo==='Sim'||A.provaHora==='Sim') add(5,'tempo','CEC – Histórico de interrupções','obrig','Data e hora de início e fim da interrupção.',['interrupcao','inicio','fim','data','hora'],()=>`Registro de início e fim da interrupção${A.tempo?` (${A.tempo} h)`:''}, usado para medir o prazo de restabelecimento.`);
+  else if(A.provaHora==='Não'||A.provaHora==='Não identificado') add(5,'tempo','CEC – Histórico de interrupções','dilig','Histórico de interrupções consultado (prova de diligência).',['interrupcao','historico'],()=>'Consulta ao histórico de interrupções do acesso no período.');
+  // Bloco 6
+  if(A.vand==='Sim'||A.dano==='Sim') add(6,'visita','Portal V.tal – Visita técnica','obrig','Registro técnico do dano externo ou vandalismo.',['visita','tecnico','dano','vandalismo'],()=>'Registro técnico do dano externo à rede (vandalismo).');
+  if(A.risco==='Sim'){
+    add(6,'risco_v','Portal V.tal – Validação de Área de Risco','obrig','Endereço classificado como área de risco, com data da consulta.',['risco','area','vtal','impedimento'],()=>'Portal V.tal mostra que o endereço do cliente está em área de risco.',{ou:'risco'});
+    add(6,'risco_c','CEC – Área de risco','sug','Indicação de área de risco no CEC.',['cec','risco','area'],()=>'CEC indica área de risco para o endereço do cliente.',{ou:'risco'});
+    if(A.evRisco==='BI') add(6,'risco_b','Portal BI – Área de Risco','sug','Classificação do endereço no BI.',['bi','risco','area'],()=>'Portal BI classifica o endereço como área de risco.');
+    if(A.impCom==='Sim'&&A.provaImp==='Sim') add(6,'comimp','Comunicação ao cliente (SMS, e-mail ou app)','obrig','Comunicação da impossibilidade de atuação, com data e conteúdo.',['impossibilidade','data','cliente'],()=>'Comunicação ao cliente sobre a impossibilidade de atuação técnica.',{tipo:'documento'});
+  }
+  if(A.inadimp==='Sim'||A.debito==='Sim'||A.credito==='Sim') add(6,'pagto','Faturas em Aberto / Histórico de Pagamento','obrig','Faturas, vencimentos e créditos ou descontos do período.',['fatura','vencimento','valor','pagamento','credito','desconto'],()=>`Histórico de pagamento do período da interrupção${A.credito==='Sim'?', com crédito ou desconto aplicado':''}${A.inadimp==='Sim'?', com faturas em aberto':''}.`);
+  if(A.negat==='Sim') add(6,'serasa','Serasa – Consulta de negativação','obrig','Existência ou ausência de registro de negativação no período.',['serasa','negativacao','spc','registro'],()=>'Consulta ao Serasa sobre negativação no período da interrupção.');
+  // Bloco 7
+  if(A.amb==='Sim') add(7,'netq','NETQ – Equipamentos e qualidade','obrig','Evidência do problema no ambiente interno (equipamentos do cliente).',['netq','equipamento','roteador','wifi'],()=>'NETQ indica que a causa está no ambiente interno do cliente (equipamentos próprios).');
+  if(A.rst==='Sim') add(7,'rst','RST assinado','obrig','RST com assinatura do cliente.',['rst','assinatura','cliente'],()=>'RST assinado pelo cliente, comprovando a causa no ambiente interno.',{tipo:'documento'});
+  // Bloco 8
+  if(A.testes==='Sim') add(8,'netq','NETQ – Equipamentos e qualidade','obrig',`Resultado dos testes técnicos${A.resTestes?` (${A.resTestes})`:''}.`,['netq','teste','resultado'],()=>`Testes técnicos com resultado "${A.resTestes||'—'}".`);
+  return order.map(k=>out.get(k));
+}
+
+/* ---------- Derivações (sugestões; o operador confirma) ---------- */
+function derive(A){
+  const fail=(A.desal==='Sim'||A.infra==='Sim'||A.massiva==='Sim'||(A.manut==='Sim'&&A.comunic==='Não')||A.restab==='Não');
+  const excl=(A.vand==='Sim'||A.risco==='Sim'||(A.inadimp==='Sim'&&A.devido==='Sim'));
+  const tipoExcl=A.risco==='Sim'?'Área de risco':A.vand==='Sim'?'Vandalismo':(A.inadimp==='Sim'&&A.devido==='Sim')?'Inadimplência':'';
+  const prova=fail?'Sim':'Não';
+  const ausen=(A.estab==='Sim'&&!fail)?'Sim':'Não';
+  const resp=(fail&&!excl)?'Sim':'Não';
+  return{provaFalha:prova,provaAus:ausen,respNio:resp,excl:excl?'Sim':'Não',tipoExcl,sufic:null};
+}
+function finalVals(A){const d=derive(A);const o=S.fin||{};return{
+  provaFalha:o.provaFalha||d.provaFalha,provaAus:o.provaAus||d.provaAus,respNio:o.respNio||d.respNio,excl:o.excl||d.excl,tipoExcl:o.tipoExcl||d.tipoExcl,sufic:o.sufic||(completeness().ratio>=0.8?'Sim':'Não')}}
+function suggestConclusion(){
+  if(S.cad.tem==='Não')return CONCLUSOES[1];
+  const f=finalVals(S.A);
+  if(f.provaFalha==='Sim'||f.respNio==='Sim')return CONCLUSOES[0];
+  if(f.excl==='Sim'||(f.provaAus==='Sim'&&f.sufic==='Sim'))return CONCLUSOES[1];
+  return CONCLUSOES[2];
+}
+function suggestCausas(){
+  const A=S.A, r=[]; const tc=A.tipoCausa||'';
+  if(A.manut==='Sim') r.push(A.comunic==='Não'?'MANUTENÇÃO PROGRAMADA NÃO COMUNICADA':'MANUTENÇÃO PROGRAMADA COMUNICADA');
+  if(/Desalinhamento/.test(tc)||A.desal==='Sim') r.push('DESALINHAMENTO DE SINAL');
+  if(/Massiva Infra/.test(tc)||(A.massiva==='Sim'&&A.tipoMass==='Infraestrutura')) r.push('FALHA MASSIVA DE INFRAESTRUTURA');
+  if(/CDOE/.test(tc)||A.tipoMass==='CDOE/I danificada') r.push('CDOE/I DANIFICADA');
+  if(/Vandalismo/.test(tc)||A.vand==='Sim') r.push('VANDALISMO EM INFRAESTRUTURA');
+  if(/Área de risco/.test(tc)||A.risco==='Sim') r.push('IMPOSSIBILIDADE TÉCNICA EM ÁREA DE RISCO');
+  if(/Inadimpl/.test(tc)) r.push('BLOQUEIO POR INADIMPLÊNCIA');
+  if(/Uso inadequado|Fibra interna/.test(tc)||A.amb==='Sim') r.push('USO INADEQUADO OU AMBIENTE INTERNO');
+  if(A.restab==='Sim'&&!r.length) r.push('REESTABELECIMENTO DENTRO DO PRAZO REGULATÓRIO');
+  if(/não identificada/i.test(tc)) r.push('FALHA NÃO IDENTIFICADA');
+  return [...new Set(r)];
+}
+const SEM_CAUSA_FINAL=/ONT|Drop|Manutenção não programada/;
+
+/* ---------- Telas: estado, listas, completude ---------- */
+function allScreens(){ // lista ordenada de telas do dossiê
+  const list=[];
+  if(S.cad.tem==='Não') list.push({key:'cad',nome:'Evidência de ausência de cadastro',nivel:'obrig',mostrar:['Resultado da busca por linha, nome parcial, CPF e contrato sem cadastro na Nio.'],kw:['cadastro','cliente','nao','encontrado','resultado'],draft:()=>'Consulta por linha telefônica, nome parcial, CPF e número de contrato, sem localizar cadastro ou contrato do cliente na Nio.',blocos:[0],fixed:true});
+  if(S.cad.tem==='Sim'){
+    [...S.comuns].sort((a,b)=>COMUNS.indexOf(a)-COMUNS.indexOf(b)).forEach(n=>list.push({key:'c:'+n,nome:n,nivel:CONTRATO_GRP.has(n)?'obrig':'sug',mostrar:[CONTRATO_GRP.has(n)?'Status do contrato, titular, CPF, endereço e produto.':'Protocolos do cliente: data, canal e assunto de cada atendimento.'],kw:CONTRATO_GRP.has(n)?['contrato','status','titular','cpf','endereco','produto']:['protocolo','atendimento','data','canal'],draft:()=>CONTRATO_GRP.has(n)?'Dados do contrato do cliente, com status, titular, CPF, endereço de instalação e produto contratado.':'Protocolos de atendimento do cliente, com data, canal e assunto.',blocos:[0],common:true}));
+    expectedScreens(S.A).forEach(e=>list.push(e));
+  }
+  return list;
+}
+function orphans(){const keys=new Set(allScreens().map(s=>s.key));return Object.keys(S.scr).filter(k=>!keys.has(k)&&(S.scr[k].img||S.scr[k].desc));}
+function scrState(k){return S.scr[k]||(S.scr[k]={nome:'',img:null,desc:'',legivel:false,indisp:null});}
+function isFilled(k){const s=S.scr[k];return !!(s&&s.img&&s.img.status!=='bad'&&s.desc.trim().length>=40&&s.legivel);}
+function isUnavail(k){const s=S.scr[k];return !!(s&&s.indisp&&s.indisp.motivo);}
+function completeness(){
+  const list=allScreens(); const groups={}; let tot=0,got=0;
+  list.forEach(s=>{
+    const w=NIV[s.nivel]; const ok=isFilled(s.key);
+    if(s.ou){const g=groups[s.ou]||(groups[s.ou]={w:0,ok:false});g.w=Math.max(g.w,w);g.ok=g.ok||ok;return;}
+    tot+=w; if(ok)got+=w;
+  });
+  Object.values(groups).forEach(g=>{tot+=g.w;if(g.ok)got+=g.w});
+  // exige ao menos uma tela de contrato nas telas comuns
+  if(S.cad.tem==='Sim'){tot+=3;if(S.comuns.some(n=>CONTRATO_GRP.has(n)&&isFilled('c:'+n)))got+=3;}
+  return{ratio:tot?got/tot:0,tot,got};
+}
+function missingExpected(){
+  const miss=[]; const list=allScreens(); const groups={};
+  list.forEach(s=>{
+    if(s.nivel==='sug')return;
+    if(s.ou){(groups[s.ou]=groups[s.ou]||[]).push(s);return;}
+    if(!isFilled(s.key)&&!isUnavail(s.key))miss.push(s);
+  });
+  Object.values(groups).forEach(g=>{if(!g.some(s=>isFilled(s.key)||isUnavail(s.key)))miss.push(g[0]);});
+  if(S.cad.tem==='Sim'&&!S.comuns.some(n=>CONTRATO_GRP.has(n)&&(isFilled('c:'+n)||isUnavail('c:'+n))))miss.push({key:'common',nome:'Tela de contrato (Tela Única, Siebel ou Salesforce)',nivel:'obrig',step:2});
+  return miss;
+}
+
+/* ---------- Nota 0–10 ---------- */
+function score(){
+  const list=allScreens(); const filled=list.filter(s=>isFilled(s.key));
+  const comp=completeness().ratio;
+  const imgs=filled.map(s=>S.scr[s.key].img.status==='ok'?1:0.6);
+  const img=imgs.length?imgs.reduce((a,b)=>a+b,0)/imgs.length:0;
+  const descs=list.filter(s=>S.scr[s.key]&&(S.scr[s.key].img||S.scr[s.key].desc));
+  const dOk=descs.length?descs.filter(s=>S.scr[s.key].desc.trim().length>=80).length/descs.length:0;
+  const fl=S.fin.fund.trim().length; const fOk=Math.min(1,fl/300);
+  const txt=(descs.length?dOk:0)*0.6+fOk*0.4;
+  // coerência
+  const A=S.A; let cs=0,cn=0; const add=(c)=>{cn++;if(c)cs++};
+  if(A.tipoCausa&&A.desal){add(!(/Desalinhamento/.test(A.tipoCausa)&&A.desal==='Não'))}
+  if(A.massiva==='Sim'&&A.evTec==='Sim'&&A.tipoCausa){add(/Massiva/.test(A.tipoCausa))}
+  if(A.coincide&&A.pCoin){add(A.coincide===A.pCoin)}
+  if(S.fin.conclusao){add(S.fin.conclusao===suggestConclusion()||S.fin.concMotivo.trim().length>=20)}
+  if(A.falhaDe&&A.falhaAte){add(A.falhaAte>=A.falhaDe)}
+  const coer=cn?cs/cn:0.5;
+  // pendências
+  const unav=list.filter(s=>isUnavail(s.key)).length; const bad=list.filter(s=>S.scr[s.key]&&S.scr[s.key].img&&S.scr[s.key].img.status==='bad').length;
+  const totalQ=BLOCOS.flatMap(b=>b.qs).filter(x=>x.type!=='auto'&&(!x.show||x.show(A))).length;
+  const ansQ=BLOCOS.flatMap(b=>b.qs).filter(x=>x.type!=='auto'&&(!x.show||x.show(A))&&A[x.id]!==undefined&&A[x.id]!==''&&!(Array.isArray(A[x.id])&&!A[x.id].length)).length;
+  const qRatio=S.cad.tem==='Não'?1:(totalQ?ansQ/totalQ:0);
+  const pend=Math.max(0,qRatio-unav*0.1-bad*0.15);
+  const dims=[{k:'Telas esperadas',w:.40,v:comp,h:'Quantas das telas pedidas já têm imagem e descrição.'},{k:'Qualidade das imagens',w:.25,v:img,h:'Imagem aprovada vale 100%; com alerta (pouca nitidez ou resolução), 60%. Só conta quem já enviou.'},{k:'Textos',w:.15,v:txt,h:'Descrições com 80 caracteres ou mais (60%) e fundamentação com cerca de 300 caracteres (40%).'},{k:'Coerência das respostas',w:.10,v:coer,h:'Respostas que não se contradizem (ex.: causa “desalinhamento” com “não houve desalinhamento”).'},{k:'Sem pendências',w:.10,v:pend,h:'Perguntas da triagem respondidas, menos telas marcadas como não obtidas ou reprovadas.'}];
+  const total=dims.reduce((a,d)=>a+d.w*d.v,0)*10;
+  const tips=[];
+  missingExpected().slice(0,3).forEach(s=>tips.push(`Adicione a tela “${s.nome}”.`));
+  list.forEach(s=>{const x=S.scr[s.key]; if(x&&x.img&&x.img.status==='warn')tips.push(`Troque a imagem de “${s.nome}” por uma mais nítida ou maior.`); if(x&&x.img&&x.img.status==='bad')tips.push(`A imagem de “${s.nome}” foi reprovada: envie outra.`); if(x&&x.img&&x.desc.trim().length<80&&tips.length<6)tips.push(`Detalhe a descrição de “${s.nome}” (80 caracteres ou mais).`)});
+  if(fl<300)tips.push('Amplie a fundamentação da conclusão (cerca de 300 caracteres).');
+  return{total,dims,tips:[...new Set(tips)].slice(0,5)};
+}
+
+/* ---------- Validações de imagem ---------- */
+async function sniff(file){
+  const b=new Uint8Array(await file.slice(0,16).arrayBuffer());
+  const hex=[...b].map(x=>x.toString(16).padStart(2,'0')).join('');
+  if(hex.startsWith('ffd8ff'))return'jpeg'; if(hex.startsWith('89504e47'))return'png';
+  if(hex.startsWith('52494646')&&hex.slice(16,24)==='57454250')return'webp';
+  return null;
+}
+function loadImg(url){return new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=()=>rej(new Error('img'));i.src=url})}
+function lapVar(ctx,w,h){
+  const d=ctx.getImageData(0,0,w,h).data; const g=new Float32Array(w*h);
+  for(let i=0;i<w*h;i++)g[i]=0.299*d[i*4]+0.587*d[i*4+1]+0.114*d[i*4+2];
+  let s=0,s2=0,n=0;
+  for(let y=1;y<h-1;y++)for(let x=1;x<w-1;x++){const i=y*w+x;const l=4*g[i]-g[i-1]-g[i+1]-g[i-w]-g[i+w];s+=l;s2+=l*l;n++}
+  const m=s/n; return s2/n-m*m;
+}
+async function analyze(file){
+  const checks=[]; let status='ok';
+  const set=(s)=>{if(s==='bad')status='bad';else if(s==='warn'&&status!=='bad')status='warn'};
+  const kind=await sniff(file);
+  if(!kind){return{status:'bad',checks:[{s:'bad',t:'Formato inválido',d:'O arquivo não é uma imagem JPG, PNG ou WebP de verdade. Tire uma captura de tela e envie de novo.'}]}}
+  checks.push({s:'ok',t:'Formato',d:kind.toUpperCase()+' reconhecido pela assinatura do arquivo.'});
+  const url=URL.createObjectURL(file); let img;
+  try{img=await loadImg(url)}catch(e){URL.revokeObjectURL(url);return{status:'bad',checks:[{s:'bad',t:'Imagem corrompida',d:'Não foi possível abrir a imagem.'}]}}
+  const w=img.naturalWidth,h=img.naturalHeight;
+  if(w<700){checks.push({s:'bad',t:'Resolução',d:`${w}×${h} px. Abaixo de 700 px de largura não dá para ler a tela.`});set('bad')}
+  else if(w<1000){checks.push({s:'warn',t:'Resolução',d:`${w}×${h} px. O ideal é 1000 px de largura ou mais.`});set('warn')}
+  else checks.push({s:'ok',t:'Resolução',d:`${w}×${h} px.`});
+  // análise em escala reduzida
+  const sc=Math.min(1,1000/w); const cw=Math.round(w*sc),ch=Math.round(h*sc);
+  const cv=document.createElement('canvas');cv.width=cw;cv.height=ch;const cx=cv.getContext('2d',{willReadFrequently:true});cx.fillStyle='#fff';cx.fillRect(0,0,cw,ch);cx.drawImage(img,0,0,cw,ch);
+  const px=cx.getImageData(0,0,cw,ch).data; let sum=0,sq=0; const N=cw*ch;
+  for(let i=0;i<N;i++){const l=0.299*px[i*4]+0.587*px[i*4+1]+0.114*px[i*4+2];sum+=l;sq+=l*l}
+  const mean=sum/N, sd=Math.sqrt(Math.max(0,sq/N-mean*mean));
+  if(mean<20||sd<8){checks.push({s:'bad',t:'Brilho e contraste',d:mean<20?'A imagem está quase toda preta.':'A imagem está quase toda de uma cor só, sem texto visível.'});set('bad')}
+  else if(sd<22){checks.push({s:'warn',t:'Brilho e contraste',d:'Contraste baixo. Confira se o texto está legível.'});set('warn')}
+  else checks.push({s:'ok',t:'Brilho e contraste',d:'Contraste adequado.'});
+  const lv=lapVar(cx,cw,ch);
+  if(lv<BLUR_BAD){checks.push({s:'bad',t:'Nitidez',d:'A imagem está desfocada. Refaça a captura com zoom em 100%.'});set('bad')}
+  else if(lv<BLUR_WARN){checks.push({s:'warn',t:'Nitidez',d:'Nitidez abaixo do ideal. Confira se o texto está legível.'});set('warn')}
+  else checks.push({s:'ok',t:'Nitidez',d:'Texto com bordas nítidas.'});
+  // imagem para exportar (até 2000 px)
+  const es=Math.min(1,2000/w); const ec=document.createElement('canvas');ec.width=Math.round(w*es);ec.height=Math.round(h*es);const ex=ec.getContext('2d');ex.fillStyle='#fff';ex.fillRect(0,0,ec.width,ec.height);ex.drawImage(img,0,0,ec.width,ec.height);
+  const dataUrl=ec.toDataURL('image/jpeg',0.9);
+  URL.revokeObjectURL(url);
+  return{status,checks,dataUrl,w,h,ocr:{state:'pending'},lv:Math.round(lv)};
+}
+let BLUR_BAD=30,BLUR_WARN=150;
+let ocrWorker=null,ocrFail=false;
+async function runOCR(key){
+  const s=S.scr[key]; if(!s||!s.img||!s.img.dataUrl)return;
+  const spec=allScreens().find(x=>x.key===key); const kws=(spec&&spec.kw)||[];
+  const norm=t=>t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  try{
+    if(ocrFail||!window.Tesseract)throw new Error('off');
+    if(!ocrWorker){ocrWorker=await Promise.race([Tesseract.createWorker('por'),new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')),8000))]);}
+    const r=await Promise.race([ocrWorker.recognize(s.img.dataUrl),new Promise((_,rj)=>setTimeout(()=>rj(new Error('timeout')),30000))]);
+    const text=norm(r.data.text||''); const hit=kws.filter(k=>text.includes(norm(k)));
+    s.img.ocr={state:'done',conf:Math.round(r.data.confidence||0),hit,total:kws.length,chars:text.length};
+  }catch(e){ocrFail=true;s.img.ocr={state:'off'}}
+  refreshCard(key);
+}
+</script>
+<script>
+/* ---------- Render: etapas ---------- */
+const STEPS=[{id:'ident',t:'Identificação'},{id:'cad',t:'Cadastro'},{id:'comuns',t:'Telas comuns'},{id:'tri',t:'Triagem de Interrupção'},{id:'conc',t:'Conclusão'},{id:'rev',t:'Revisão e download'}];
+function stepSkipped(i){return S.cad.tem==='Não'&&(i===2||i===3)}
+function stepDone(i){
+  switch(i){
+    case 0:return !!(S.meta.idPasta&&S.meta.idSub&&S.meta.data);
+    case 1:return S.cad.tem==='Sim'||(S.cad.tem==='Não'&&isFilled('cad'));
+    case 2:return S.cad.tem==='Sim'&&S.comuns.some(n=>CONTRATO_GRP.has(n)&&isFilled('c:'+n));
+    case 3:return S.cad.tem==='Sim'&&allScreens().filter(s=>!s.common&&s.nivel==='obrig'&&!s.ou).every(s=>isFilled(s.key)||isUnavail(s.key))&&Object.keys(S.A).length>6;
+    case 4:return !!(S.fin.conclusao&&(S.fin.causa)&&S.fin.fund.trim().length>=150);
+    case 5:return false;
+  }
+}
+const STEP_SUB=['Dados da capa','Contrato do cliente','Contrato e atendimento','Perguntas e telas','Causa e fundamentação','Nota e download'];
+function renderNav(){
+  {const pr=document.getElementById('prog');if(pr)pr.innerHTML=`<div class="pt"><span>Etapa</span><b>${S.step+1} de 6</b></div><div class="trk"><i style="width:${((S.step+1)/6*100).toFixed(1)}%"></i></div>`}
+  $('#nav').innerHTML=STEPS.map((s,i)=>{const sk=stepSkipped(i),dn=stepDone(i);
+    return `<button class="step ${dn?'done':''} ${sk?'skip':''}" data-step="${i}" ${i===S.step?'aria-current="step"':''}><span class="num">${dn?ic('check',16):i+1}</span><span class="stx"><b>${esc(s.t)}</b><small>${sk?'Não exigida neste caso':STEP_SUB[i]}</small></span></button>`}).join('');
+}
+const SC_STOPS=[[0,[104,116,98]],[6,[84,160,0]],[10,[26,114,0]]];
+function scoreColor(t){t=Math.max(0,Math.min(10,t));for(let i=1;i<SC_STOPS.length;i++){const[a,ca]=SC_STOPS[i-1],[b,cb]=SC_STOPS[i];if(t<=b){const f=(t-a)/(b-a);return'rgb('+ca.map((x,j)=>Math.round(x+(cb[j]-x)*f)).join(',')+')'}}return'rgb(26,114,0)'}
+const SC_GRAD='linear-gradient(90deg,#8E9A84 0%,#A6E300 60%,#32E000 100%)';
+const infoI=(txt,cls='')=>`<button type="button" class="ib ${cls}" aria-label="Como é calculado">i<span class="tp">${esc(txt)}</span></button>`;
+function renderScore(){
+  const sc=score(); const t=sc.total; const R=52,C=2*Math.PI*R; const col=scoreColor(t);
+  const msg=t>=9?['Dossiê completo','Pronto para baixar e entregar.']:t>=7?['Está bom','Falta pouco para a nota máxima.']:t>=4?['Em construção','Siga as dicas abaixo para subir a nota.']:['Vamos começar','Comece pelas telas obrigatórias.'];
+  $('#score').innerHTML=`<div class="scorecard"><div class="lbl" style="display:flex;align-items:center">Nota do dossiê${infoI('A nota vai de 0 a 10: soma de cada percentual multiplicado pelo seu peso. Ela só orienta e nunca bloqueia o download.')}</div>
+  <div class="ringwrap"><div class="ring"><svg width="118" height="118" viewBox="0 0 118 118" style="width:100%;height:100%"><circle cx="59" cy="59" r="${R}" fill="none" stroke="rgba(25,43,28,.13)" stroke-width="9"/><circle cx="59" cy="59" r="${R}" fill="none" stroke="${col}" stroke-width="9" stroke-linecap="round" stroke-dasharray="${(C*t/10).toFixed(1)} ${C.toFixed(1)}"/></svg><div class="v" style="color:${col}">${t.toFixed(1).replace('.',',')}</div></div>
+  <div class="msg"><b>${t<4?'<span class="dot" aria-hidden="true"></span>':''}${msg[0]}</b>${msg[1]}</div></div>
+  <div class="full">
+  <hr>
+  ${sc.dims.map(d=>{const v=Math.max(0.02,d.v);return `<div class="dim" style="margin-bottom:10px"><span class="lb">${esc(d.k)}${infoI(d.h+' Peso '+Math.round(d.w*100)+'%.')}</span><b>${Math.round(d.v*100)}%</b><div class="bar"><i style="width:${v*100}%;background:${SC_GRAD};background-size:${(100/v).toFixed(1)}% 100%"></i></div></div>`}).join('')}
+  ${sc.tips.length?`<hr><div class="lbl">Como subir a nota</div><ul class="tips">${sc.tips.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}
+  </div></div>`;
+}
+function go(i){S.step=Math.max(0,Math.min(5,i));render();window.scrollTo({top:0})}
+function render(){renderNav();renderScore();const f=[renderIdent,renderCad,renderComuns,renderTri,renderConc,renderRev][S.step];f();}
+function head(t,p){return `<div class="hero"><div class="eyebrow">Etapa ${S.step+1} de 6</div><h2>${esc(t)}</h2>${p?`<p>${p}</p>`:''}</div>`}
+function foot(){const n=nextStep();return `<div class="footnav"><button class="btn" data-step="${prevStep()}" ${S.step===0?'disabled':''}>${ic('back',18)}Voltar</button><button class="btn pri" data-step="${n}" ${S.step===5?'disabled':''}>Continuar${ic('arrow',18)}</button></div>`}
+function nextStep(){let n=S.step+1;while(n<5&&stepSkipped(n))n++;return n}
+function prevStep(){let n=S.step-1;while(n>0&&stepSkipped(n))n--;return Math.max(0,n)}
+
+function renderIdent(){
+  const m=S.meta;
+  $('#app').innerHTML=head('Identificação do subsídio','Dados que aparecem na capa do documento.')+`
+  <div class="card"><div class="grid2">
+   <div class="field"><label for="m_data">Data da análise</label><input type="date" id="m_data" value="${esc(m.data)}" data-m="data"></div>
+   <div class="field"><label for="m_pasta">ID Pasta</label><input type="text" id="m_pasta" inputmode="numeric" value="${esc(m.idPasta)}" data-m="idPasta" placeholder="Ex.: 123456"></div>
+   <div class="field"><label for="m_sub">ID Subsídio</label><input type="text" id="m_sub" inputmode="numeric" value="${esc(m.idSub)}" data-m="idSub" placeholder="Ex.: 14776"></div>
+  </div></div>
+  <div class="card"><h3>Subobjeto</h3>
+   <p class="note" style="margin:0 0 10px">Confirme se o subobjeto da pasta está correto. Se corrigir, o subobjeto original fica registrado.</p>
+   <div class="field"><label>Subobjeto da pasta</label><div style="font-size:18px;font-weight:800">${esc(m.subOrig)}</div></div>
+   <div class="seg" style="margin-top:10px"><button data-act="subok" aria-pressed="${!m.corrigindo&&m.sub===m.subOrig}">OK, está correto</button><button data-act="subfix" aria-pressed="${m.corrigindo||m.sub!==m.subOrig}">Corrigir</button></div>
+   ${(m.corrigindo||m.sub!==m.subOrig)?`<div class="grid2" style="margin-top:12px"><div class="field"><label for="m_nsub">Subobjeto correto</label><select id="m_nsub" data-m="sub"><option value="">Selecione</option>${SUBOBJETOS.map(s=>`<option ${s===m.sub&&s!==m.subOrig?'selected':''}>${esc(s)}</option>`).join('')}</select></div>
+     <div class="field"><label for="m_mot">Por que corrigiu?</label><input type="text" id="m_mot" value="${esc(m.subMotivo)}" data-m="subMotivo" placeholder="Ex.: o pedido trata de cobrança"></div></div>
+     ${m.sub!==m.subOrig&&m.sub!=='INTERRUPÇÃO'?`<div class="blockers" style="margin-top:12px">Esta primeira versão só tem o questionário de Interrupção. Os demais subobjetos entram nas próximas versões.</div>`:''}`:''}
+  </div>`+foot();
+}
+
+function renderCad(){
+  const c=S.cad;
+  const allChecks=c.checks.linha&&c.checks.nome&&c.checks.cpf&&c.checks.contrato;
+  $('#app').innerHTML=head('Cadastro do cliente','A resposta fica registrada no dossiê.')+`
+  <div class="card"><div class="lbl" style="margin-bottom:8px">O cliente tem cadastro ou contrato com a Nio?</div>
+   <div class="seg"><button data-act="cad" data-v="Sim" aria-pressed="${c.tem==='Sim'}">Sim</button><button data-act="cad" data-v="Não" aria-pressed="${c.tem==='Não'}">Não</button></div>
+   <p class="note" style="margin:10px 0 0">Vale contrato em nome de terceiro. Não é preciso especificar.</p></div>
+  ${c.tem==='Sim'?`<div class="banner">${ic('info',20)}<div><b>Próximo passo:</b> telas comuns (contrato e atendimento) e triagem de Interrupção.</div></div>`:''}
+  ${c.tem==='Não'?`<div class="card"><h3>Antes de anexar a evidência</h3>
+    <p class="note" style="margin:0 0 10px">Confirme que já procurou o cliente por todos os caminhos abaixo.</p>
+    <div class="checks">
+     ${[['linha','Pela linha telefônica'],['nome','Pelo nome parcial'],['cpf','Pelo CPF'],['contrato','Pelo número do contrato']].map(([k,l])=>`<label><input type="checkbox" data-chk="${k}" ${c.checks[k]?'checked':''}> ${l}</label>`).join('')}
+    </div></div>
+    ${allChecks?`<div class="screens"><div class="lbl">Evidência de ausência de cadastro</div><div id="cardhost">${cardHTML(allScreens().find(s=>s.key==='cad'))}</div></div>
+     <div class="banner" style="margin-top:14px">${ic('info',20)}<div><b>Sem cadastro:</b> as telas comuns e a triagem não são exigidas, porque não existem. Siga para a conclusão.</div></div>`
+     :`<div class="banner">${ic('info',20)}<div><b>Faça as quatro checagens</b> para liberar o anexo da evidência.</div></div>`}`:''}
+  `+foot();
+}
+
+function renderComuns(){
+  if(S.cad.tem!=='Sim'){$('#app').innerHTML=head('Telas comuns','')+`<div class="banner">${ic('info',20)}<div>Responda primeiro, na etapa Cadastro, se o cliente tem cadastro ou contrato.</div></div>`+foot();return;}
+  const avail=COMUNS.filter(n=>!S.comuns.includes(n));
+  const list=allScreens().filter(s=>s.common);
+  $('#app').innerHTML=head('Telas comuns a todos os casos','Escolha o sistema e a tela. Ao adicionar, abre o campo para imagem e descrição. A opção usada sai da lista.')+tipsBox()+`
+  <div class="banner">${ic('info',20)}<div><b>Obrigatória:</b> uma tela de contrato (Tela Única, Siebel ou Salesforce). <b>Sugerida:</b> protocolos de atendimento.</div></div>
+  <div class="card"><div class="add"><div class="field"><label for="addc">Sistema – tela</label><select id="addc"><option value="">Selecione</option>${avail.map(n=>`<option>${esc(n)}</option>`).join('')}</select></div>
+   <button class="btn pri" data-act="addc">Adicionar tela</button></div></div>
+  <div class="screens" id="cardhost">${list.map(cardHTML).join('')||'<div class="note">Nenhuma tela comum adicionada ainda.</div>'}</div>`+foot();
+}
+
+function tipsBox(){return `<details class="card tipbox"><summary>${ic('tip',20)}Como tirar uma boa captura de tela</summary><ul>
+ <li>Capture a tela inteira do sistema, com data e hora do computador visíveis.</li>
+ <li>Use zoom de 100% e tela cheia. Não tire foto da tela com o celular.</li>
+ <li>Largura de pelo menos 1000 px, em PNG ou JPG. Evite cortar colunas e textos.</li>
+ <li>Mostre só o cliente do caso. Esconda dados de outros clientes.</li>
+ <li>Você pode arrastar o arquivo, clicar para escolher ou colar com Ctrl+V.</li></ul></details>`}
+
+function qHTML(qq){
+  const A=S.A; if(qq.show&&!qq.show(A))return''; const v=A[qq.id];
+  let ctl='';
+  if(qq.type==='snni'||qq.type==='sn')ctl=`<div class="seg" role="group" aria-label="${esc(qq.t)}">${(qq.type==='sn'?SN:SNNI).map(o=>`<button data-act="ans" data-q="${qq.id}" data-v="${esc(o)}" aria-pressed="${v===o}">${o}</button>`).join('')}</div>`;
+  else if(qq.type==='date')ctl=`<input type="date" id="q_${qq.id}" value="${esc(v||'')}" data-ans="${qq.id}" aria-label="${esc(qq.t)}">`;
+  else if(qq.type==='num')ctl=`<input type="number" min="0" id="q_${qq.id}" value="${esc(v??'')}" data-ans="${qq.id}" aria-label="${esc(qq.t)}" style="max-width:160px">`;
+  else if(qq.type==='sel')ctl=`<select id="q_${qq.id}" data-ans="${qq.id}" aria-label="${esc(qq.t)}"><option value="">Selecione</option>${qq.opts.map(o=>`<option ${v===o?'selected':''}>${esc(o)}</option>`).join('')}</select>`;
+  else if(qq.type==='multi')ctl=`<div class="checks">${qq.opts.map(o=>`<label><input type="checkbox" data-multi="${qq.id}" value="${esc(o)}" ${(v||[]).includes(o)?'checked':''}> ${esc(o)}</label>`).join('')}</div>`;
+  else if(qq.type==='auto')ctl=`<div style="font-weight:700">${esc(qq.calc(A))} <span class="pill">calculado</span></div>`;
+  const h=qq.hint?qq.hint(A):'';
+  return `<div class="q"><label>${esc(qq.t)}</label>${ctl}${h?`<div class="hint">${esc(h)}</div>`:''}</div>`;
+}
+function blockHTML(b,i){
+  const vis=b.qs.filter(x=>x.type!=='auto'&&(!x.show||x.show(S.A)));
+  const ans=vis.filter(x=>{const v=S.A[x.id];return v!==undefined&&v!==''&&!(Array.isArray(v)&&!v.length)}).length;
+  const qs=b.qs.map(qHTML).join('');
+  const sc=allScreens().filter(s=>!s.common&&s.blocos&&s.blocos[0]===i+1);
+  const dup=allScreens().filter(s=>!s.common&&s.blocos&&s.blocos.includes(i+1)&&s.blocos[0]!==i+1);
+  const cnt=sc.filter(s=>isFilled(s.key)||isUnavail(s.key)).length;
+  const hasScr=sc.length||dup.length;
+  const complete=ans===vis.length&&cnt===sc.length;
+  const open=S.open&&S.open[b.id]!==undefined?S.open[b.id]:i===0;
+  return `<details class="block ${complete?'complete':''}" ${open?'open':''} data-blk="${b.id}"><summary><span class="n">${complete?ic('check',18):i+1}</span><span class="tt"><b>${esc(b.t)}</b><small>${ans} de ${vis.length} respondidas</small></span><span class="meta"><span class="pill ${sc.length?(cnt===sc.length?'ok':'sug'):''}">${sc.length?cnt+' de '+sc.length+(sc.length>1?' telas':' tela'):'sem tela pedida'}</span></span></summary>
+   <div class="body">${qs}
+   ${hasScr?`<div class="screens"><div class="lbl">Telas pedidas por este bloco</div>${sc.map(cardHTML).join('')}${dup.map(s=>`<div class="note">“${esc(s.nome)}” também vale para este bloco. Já aparece em um bloco anterior.</div>`).join('')}</div>`:''}
+   </div></details>`;
+}
+function renderTri(){
+  if(S.cad.tem!=='Sim'){$('#app').innerHTML=head('Triagem de Interrupção','')+`<div class="banner">${ic('info',20)}<div>Responda primeiro, na etapa Cadastro, se o cliente tem cadastro ou contrato.</div></div>`+foot();return;}
+  $('#app').innerHTML=head('Triagem de Interrupção','Responda na ordem. Cada resposta indica as telas que o dossiê precisa. “Não” e “Não identificado” pedem a tela que comprova que você consultou.')+tipsBox()+
+   `<div id="blocks">${BLOCOS.map(blockHTML).join('')}</div>`+
+   `<div id="orph"></div>`+foot();
+  renderOrph();
+}
+function renderOrph(){
+  const o=orphans(); const h=$('#orph'); if(!h)return;
+  h.innerHTML=o.length?`<div class="card"><h3>Telas extras</h3><p class="note">Estas telas já foram anexadas, mas as respostas atuais não pedem mais. Elas entram no documento a menos que você remova.</p><div class="screens">${o.map(k=>cardHTML({key:k,nome:S.scr[k].nome||k,nivel:'sug',mostrar:['Tela extra anexada pelo operador.'],kw:[],extra:true,draft:()=>''})).join('')}</div></div>`:'';
+}
+function refreshBlock(id){
+  const i=BLOCOS.findIndex(b=>b.id===id); const el=document.querySelector(`[data-blk="${id}"]`); if(!el)return;
+  S.open=S.open||{}; BLOCOS.forEach(b=>{const e=document.querySelector(`[data-blk="${b.id}"]`);if(e)S.open[b.id]=e.open});
+  // atualiza todos os blocos (telas podem mudar em blocos seguintes)
+  const host=$('#blocks'); if(!host)return; host.innerHTML=BLOCOS.map(blockHTML).join(''); renderOrph();
+}
+</script>
+<script>
+/* ---------- Cartão de tela ---------- */
+function selNome(spec){
+  const st=scrState(spec.key); const cur=st.nome||spec.nome;
+  const fixed=spec.fixed||spec.extra;
+  if(fixed)return `<div style="font-weight:800;flex:1 1 260px">${esc(cur)}</div>`;
+  const inCat=CAT.some(c=>c.n===cur);
+  return `<select data-nome="${esc(spec.key)}" aria-label="Nome da tela">${CAT.map(c=>`<option value="${esc(c.n)}" ${c.n===cur?'selected':''}>${esc(c.n)}${c.v?'':' (nome a validar)'}</option>`).join('')}<option value="__outra" ${!inCat?'selected':''}>Outra tela…</option></select>${!inCat?`<input type="text" data-nomeoutra="${esc(spec.key)}" value="${esc(cur)}" placeholder="Nome do sistema e da tela" style="flex:1 1 100%">`:''}`;
+}
+function cardHTML(spec){
+  const k=spec.key; const st=scrState(k); const fill=isFilled(k); const un=isUnavail(k);
+  const lvl={obrig:'Obrigatória',dilig:'Prova de diligência',sug:'Sugerida'}[spec.nivel];
+  const why=spec.blocos&&spec.blocos[0]?`Pedida pelo bloco ${spec.blocos.join(', ')}.`:'';
+  const im=st.img;
+  const cks=im?im.checks.map(c=>`<div class="chk ${c.s}"><span class="dt">${c.s==='ok'?'✓':c.s==='warn'?'!':'×'}</span><div><b>${esc(c.t)}.</b> ${esc(c.d)}</div></div>`).join(''):'';
+  let ocr='';
+  if(im&&im.status!=='bad'){
+    const o=im.ocr||{state:'off'};
+    if(o.state==='pending')ocr=`<div class="chk na"><span class="dt">…</span><div><b>Leitura do texto.</b> Lendo a imagem…</div></div>`;
+    else if(o.state==='done'){ if(!o.total)ocr=`<div class="chk ok"><span class="dt">✓</span><div><b>Leitura do texto.</b> ${o.chars>20?'Texto reconhecido.':'Pouco texto reconhecido. Confira a legibilidade.'}</div></div>`;
+      else ocr=o.hit.length?`<div class="chk ok"><span class="dt">✓</span><div><b>Leitura do texto.</b> Encontrei ${o.hit.length} de ${o.total} termos esperados (${esc(o.hit.join(', '))}).</div></div>`:`<div class="chk warn"><span class="dt">!</span><div><b>Leitura do texto.</b> Não encontrei os termos esperados (${esc(spec.kw.slice(0,4).join(', '))}). Confira se é a tela certa.</div></div>`}
+    else ocr=`<div class="chk na"><span class="dt">–</span><div><b>Leitura automática do texto.</b> Não roda neste ambiente. Confirme a legibilidade abaixo, olhando a imagem ampliada.</div></div>`;
+  }
+  const dl=st.desc.trim().length;
+  const body=un?`<div class="chk warn"><span class="dt">!</span><div><b>Tela marcada como não obtida:</b> ${esc(st.indisp.motivo)}${st.indisp.txt?' – '+esc(st.indisp.txt):''}. Isso fica registrado e reduz a nota.</div></div><button class="btn sm" data-act="unun" data-k="${esc(k)}" style="align-self:flex-start">Desfazer</button>`
+  :`${im?`<div class="prev"><div><img src="${im.dataUrl||''}" alt="Prévia da tela" data-zoom="1"><div class="note" style="margin-top:6px">Clique na imagem para ampliar.</div></div><div style="display:flex;flex-direction:column;gap:6px">${cks}${ocr}<button class="btn sm" data-act="rmimg" data-k="${esc(k)}" style="align-self:flex-start;margin-top:4px">Trocar imagem</button></div></div>`
+   :`<label class="drop" data-drop="${esc(k)}" tabindex="0">${ic('upload',30)}<b>Clique, arraste ou cole a imagem da tela</b><small>Ctrl+V cola uma captura · JPG, PNG ou WebP · largura mínima 1000 px</small><input type="file" accept="image/*" hidden data-file="${esc(k)}"></label><button class="btn sm pastebtn" data-act="pastecb" data-k="${esc(k)}">${ic('clip',17)}Colar da área de transferência</button>`}
+   <div class="field"><label>Descrição da tela</label><textarea data-desc="${esc(k)}" placeholder="O que esta tela comprova?">${esc(st.desc)}</textarea><div class="counter ${dl<40?'low':''}" id="cnt_${esc(k)}">${dl} caracteres${dl<40?' · mínimo 40':''}</div>
+    <div><button class="btn sm" data-act="draft" data-k="${esc(k)}">Usar rascunho das respostas</button></div></div>
+   <label class="chk" style="cursor:pointer"><input type="checkbox" data-leg="${esc(k)}" ${st.legivel?'checked':''} ${im&&im.status!=='bad'?'':'disabled'} style="width:20px;height:20px;accent-color:var(--ink);flex:none"> <span>Confirmo que a tela está legível.</span></label>
+   ${spec.extra?`<button class="btn sm" data-act="rmscr" data-k="${esc(k)}" style="align-self:flex-start">Remover tela</button>`:`<details class="note"><summary style="cursor:pointer">Não consegui obter esta tela</summary><div class="grid2" style="margin-top:8px"><select data-unmot="${esc(k)}"><option value="">Motivo</option><option>Sistema fora do ar</option><option>A tela não existe para este caso</option><option>Sem acesso ao sistema</option><option>Outro</option></select><input type="text" data-untxt="${esc(k)}" placeholder="Detalhe (opcional)"></div><button class="btn sm" data-act="unset" data-k="${esc(k)}" style="margin-top:8px">Marcar como não obtida</button></details>`}`;
+  return `<div class="scr ${fill?'done':''} ${im&&im.status==='bad'?'bad':''}" id="card_${esc(k)}" data-card="${esc(k)}">
+   <div class="hd">${selNome(spec)}<span class="pill ${spec.nivel}">${lvl}</span>${fill?`<span class="pill ok">${ic('check',13)}Pronta</span>`:''}${spec.ou?'<span class="pill">Vale uma das duas</span>':''}${spec.tipo==='documento'?'<span class="pill">Documento</span>':''}${spec.common&&spec.nivel==='obrig'?'':''}</div>
+   ${spec.extra?'':`<div class="need">${ic('info',18)}<div><b>A tela deve mostrar:</b> ${esc(spec.mostrar.join(' '))}</div></div>`}${why?`<div class="why">${why}</div>`:''}
+   ${body}${spec.common?`<button class="btn sm" data-act="rmc" data-k="${esc(k)}" style="align-self:flex-start">Remover tela comum</button>`:''}
+  </div>`;
+}
+function specFor(k){return allScreens().find(s=>s.key===k)||(S.scr[k]?{key:k,nome:S.scr[k].nome||k,nivel:'sug',mostrar:['Tela extra anexada pelo operador.'],kw:[],extra:true,draft:()=>''}:null)}
+function refreshCard(k){
+  const el=document.getElementById('card_'+k); const spec=specFor(k);
+  if(el&&spec){const t=document.createElement('div');t.innerHTML=cardHTML(spec);el.replaceWith(t.firstElementChild);}
+  renderScore();renderNav();
+  if(S.step===3){document.querySelectorAll('[data-blk]').forEach(d=>{const i=BLOCOS.findIndex(b=>b.id===d.dataset.blk);const tmp=document.createElement('div');tmp.innerHTML=blockHTML(BLOCOS[i],i);const n=tmp.firstElementChild;const sm=d.querySelector('summary'),ns=n.querySelector('summary');if(sm&&ns){sm.innerHTML=ns.innerHTML;d.classList.toggle('complete',n.classList.contains('complete'))}})}
+}
+async function handleFile(k,file){
+  if(!file)return; const st=scrState(k);
+  st.img={status:'warn',checks:[{s:'na',t:'Verificando',d:'Analisando a imagem…'}],dataUrl:'',ocr:{state:'off'}}; refreshCard(k);
+  const r=await analyze(file); st.img=r; st.legivel=false;
+  const spec=specFor(k); if(spec&&!st.desc.trim()&&r.status!=='bad'&&spec.draft){/* não preenche sozinho: operador escolhe */}
+  refreshCard(k);
+  if(r.status!=='bad'){runOCR(k)}
+}
+</script>
+<script>
+/* ---------- Conclusão ---------- */
+function renderConc(){
+  const F=S.fin, A=S.A, fv=finalVals(A), sug=suggestConclusion(), cs=suggestCausas();
+  const f=(k,l,opts)=>`<div class="q"><label>${l}</label><div class="seg">${opts.map(o=>`<button data-act="fin" data-q="${k}" data-v="${esc(o)}" aria-pressed="${fv[k]===o}">${o}</button>`).join('')}</div></div>`;
+  const noCad=S.cad.tem==='Não';
+  const caus=DATA.causas; const groups=[...new Set(caus.map(c=>c[0]))];
+  const inList=caus.some(c=>c[1]===F.causa);
+  $('#app').innerHTML=head('Conclusão','Revise a análise final, confirme a conclusão e a causa real.')+
+  (noCad?'':`<div class="card"><h3>Análise final</h3><p class="note" style="margin:0 0 6px">Respostas sugeridas a partir da triagem. Ajuste se precisar.</p>
+    ${f('provaFalha','Existe prova documental da falha?',SN)}${f('provaAus','Existe prova documental da ausência de falha?',SN)}${f('respNio','A falha decorre de responsabilidade da Nio?',SN)}${f('excl','Há excludente de responsabilidade?',SN)}
+    ${fv.excl==='Sim'?`<div class="q"><label>Tipo de excludente</label><div class="seg">${['Área de risco','Vandalismo','Inadimplência'].map(o=>`<button data-act="fin" data-q="tipoExcl" data-v="${o}" aria-pressed="${fv.tipoExcl===o}">${o}</button>`).join('')}</div></div>`:''}
+    ${f('sufic','As evidências são suficientes para defesa?',SN)}
+  </div>`)+
+  `<div class="card"><h3>Conclusão da análise</h3>
+   <div class="choice">${CONCLUSOES.map(c=>`<button data-act="conc" data-v="${esc(c)}" aria-pressed="${F.conclusao===c}"><b>${esc(c)}</b>${c===sug?'<span class="pill ok">Sugerida pelas respostas</span>':''}</button>`).join('')}</div>
+   ${F.conclusao&&F.conclusao!==sug?`<div class="field" style="margin-top:12px"><label for="cm">Por que a conclusão é diferente da sugerida?</label><textarea id="cm" data-fin="concMotivo" placeholder="A mudança fica registrada no histórico.">${esc(F.concMotivo)}</textarea></div>`:''}
+   <p class="note" style="margin:10px 0 0">Regra: prova da falha ou responsabilidade da Nio leva a “Autor tem razão”. Excludente, ou prova da ausência de falha com evidência suficiente, leva a “provas robustas”. Os demais casos ficam em “provas insuficientes”.</p></div>
+  <div class="card"><h3>Causa real</h3>
+   ${noCad?'<p class="note">Sem cadastro, escolha a causa que melhor descreve o caso ou informe outra.</p>':''}
+   ${cs.length?`<div class="lbl" style="margin:4px 0 6px">Sugeridas pelas suas respostas</div><div class="sugs">${cs.map(c=>`<button class="hot" data-act="causa" data-v="${esc(c)}" aria-pressed="${F.causa===c}">${esc(c)}</button>`).join('')}</div>`:''}
+   <div class="lbl" style="margin:12px 0 6px">Mais frequentes em Interrupção (${DATA.n.toLocaleString('pt-BR')} subsídios)</div>
+   <div class="sugs">${DATA.hist.map(h=>`<button data-act="causa" data-v="${esc(h[0])}" aria-pressed="${F.causa===h[0]}">${esc(h[0])} · ${String(h[1]).replace('.',',')}%</button>`).join('')}</div>
+   <div class="field" style="margin-top:12px"><label for="causa">Todas as causas</label><select id="causa" data-fin="causaSel"><option value="">Selecione</option>${groups.map(g=>`<optgroup label="${esc(g)}">${caus.filter(c=>c[0]===g).map(c=>`<option ${F.causa===c[1]?'selected':''}>${esc(c[1])}</option>`).join('')}</optgroup>`).join('')}<option value="__outra" ${F.causa==='__outra'?'selected':''}>Outra causa (informar)</option></select></div>
+   ${F.causa==='__outra'?`<div class="field" style="margin-top:10px"><label for="co">Qual é a causa?</label><input type="text" id="co" data-fin="causaOutra" value="${esc(F.causaOutra)}"></div>`:''}
+   ${SEM_CAUSA_FINAL.test(A.tipoCausa||'')?`<div class="banner" style="margin-top:12px">${ic('info',20)}<div>O tipo “${esc((A.tipoCausa||'').split('(')[0].trim())}” ainda não tem causa real final no questionário. Escolha a mais próxima ou informe outra.</div></div>`:''}
+  </div>
+  <div class="card"><h3>Fundamentação</h3><div class="field"><label for="fund">Motivos que levaram à conclusão</label><textarea id="fund" data-fin="fund" style="min-height:150px" placeholder="Explique o que as telas mostram e por que isso leva à conclusão.">${esc(F.fund)}</textarea><div class="counter ${F.fund.trim().length<150?'low':''}" id="fcnt">${F.fund.trim().length} caracteres${F.fund.trim().length<150?' · mínimo 150':''}</div><div><button class="btn sm" data-act="fund">Gerar rascunho com as respostas</button></div></div></div>
+  <div class="card"><h3>Pontos de atenção</h3>
+   <div class="q"><label>Área de risco?</label><div class="seg"><button data-act="risco" data-v="Sim" aria-pressed="${F.risco==='Sim'}">Sim</button><button data-act="risco" data-v="Não" aria-pressed="${F.risco==='Não'}">Não</button></div>${F.risco==='Sim'?`<input type="text" data-fin="riscoEsp" value="${esc(F.riscoEsp)}" aria-label="Especificar área de risco" placeholder="Especifique (ex.: impedimento total, obra paralisada)">`:''}</div>
+   <div class="q"><label>Caso de ilegitimidade passiva?</label><div class="seg"><button data-act="legit" data-v="Sim" aria-pressed="${F.legit==='Sim'}">Sim</button><button data-act="legit" data-v="Não" aria-pressed="${F.legit==='Não'}">Não</button></div>${F.legit==='Sim'?`<input type="text" data-fin="legitEsp" value="${esc(F.legitEsp)}" aria-label="Especificar ilegitimidade passiva" placeholder="Especifique">`:''}</div>
+  </div>`+foot();
+}
+function causaFinal(){return S.fin.causa==='__outra'?S.fin.causaOutra:S.fin.causa}
+function draftFund(){
+  const A=S.A, p=[]; const per=`${fmtD(A.alegDe)} a ${fmtD(A.alegAte)}`;
+  if(S.cad.tem==='Não')return 'Foram realizadas buscas por linha telefônica, nome parcial, CPF e número de contrato, sem localizar cadastro ou contrato do cliente na Nio. As telas anexadas comprovam a ausência de cadastro.';
+  p.push(`O cliente alega interrupção ${A.relata==='Não'?'parcial ':'total '}do serviço no período de ${per}.`);
+  if(A.chamados==='Sim')p.push(`Constam ${A.qtdCh||'chamados'} chamado(s) técnico(s) relacionados.`); else if(A.chamados)p.push('Não constam chamados técnicos relacionados à interrupção no período.');
+  if(A.evTec==='Sim'&&A.tipoCausa)p.push(`A causa identificada foi: ${A.tipoCausa.split('(')[0].trim().toLowerCase()}${A.falhaDe?`, entre ${fmtD(A.falhaDe)} e ${fmtD(A.falhaAte)}`:''}.`);
+  if(A.estab==='Sim')p.push(`Há evidência técnica de estabilidade do serviço no período alegado (${(A.fontes||[]).join(', ')||'fontes técnicas'}).`);
+  if(A.atuacao==='Sim')p.push(`Houve atuação técnica em ${fmtD(A.dataAtu)}, com resultado ${(A.resAtu||'').toLowerCase()||'registrado'}.`);
+  if(A.risco==='Sim')p.push('O endereço está classificado como área de risco, o que impede a atuação técnica.');
+  if(A.vand==='Sim')p.push('Há evidência de vandalismo na rede.');
+  if(A.bo==='Sim')p.push('Há boletim de ocorrência, mantido fora do dossiê (informar número e data).');
+  if(A.manut==='Sim')p.push(`A interrupção decorre de manutenção programada${A.comunic==='Sim'?', comunicada previamente ao cliente':A.comunic==='Não'?', sem comunicação prévia ao cliente':''}.`);
+  if(A.restab==='Sim')p.push('O serviço foi restabelecido dentro do prazo regulatório.'); else if(A.restab==='Não')p.push('O serviço não foi restabelecido dentro do prazo regulatório.');
+  if(S.fin.conclusao)p.push(`Conclusão: ${S.fin.conclusao.toLowerCase().replace('autor','autor')}.`);
+  return p.join(' ');
+}
+
+/* ---------- Revisão ---------- */
+function blockers(){
+  const b=[]; const F=S.fin,M=S.meta;
+  if(!M.data)b.push(['Informe a data da análise',0]); if(!M.idPasta.trim())b.push(['Informe o ID Pasta',0]); if(!M.idSub.trim())b.push(['Informe o ID Subsídio',0]);
+  if(M.sub!==M.subOrig&&!M.subMotivo.trim())b.push(['Explique a correção do subobjeto',0]);
+  if(!S.cad.tem)b.push(['Responda se o cliente tem cadastro ou contrato',1]);
+  if(S.cad.tem==='Não'){const c=S.cad.checks; if(!(c.linha&&c.nome&&c.cpf&&c.contrato))b.push(['Faça as quatro checagens de cadastro',1]); else if(!isFilled('cad'))b.push(['Anexe e descreva a evidência de ausência de cadastro',1]);}
+  if(S.cad.tem==='Sim'){
+    miss=missingExpected(); miss.forEach(s=>b.push([`Falta a tela “${s.nome}” (ou marque como não obtida)`,s.step||3]));
+    const incomplete=allScreens().filter(s=>S.scr[s.key]&&(S.scr[s.key].img||S.scr[s.key].desc)&&!isFilled(s.key)&&!isUnavail(s.key));
+    incomplete.forEach(s=>b.push([`Complete a tela “${s.nome}” (imagem aprovada, descrição e legibilidade)`,s.common?2:3]));
+    orphans().forEach(k=>{if(!isFilled(k))b.push([`Complete ou remova a tela extra “${S.scr[k].nome||k}”`,3])});
+  }
+  if(!F.conclusao)b.push(['Escolha a conclusão',4]); else if(F.conclusao!==suggestConclusion()&&F.concMotivo.trim().length<20)b.push(['Explique por que a conclusão difere da sugerida',4]);
+  if(!causaFinal()||!causaFinal().trim())b.push(['Escolha a causa real',4]);
+  if(F.fund.trim().length<150)b.push(['Escreva a fundamentação (mínimo 150 caracteres)',4]);
+  if(!F.risco)b.push(['Responda sobre área de risco',4]); else if(F.risco==='Sim'&&!F.riscoEsp.trim())b.push(['Especifique a área de risco',4]);
+  if(!F.legit)b.push(['Responda sobre ilegitimidade passiva',4]); else if(F.legit==='Sim'&&!F.legitEsp.trim())b.push(['Especifique a ilegitimidade passiva',4]);
+  if(!F.c1)b.push(['Confirme que todas as telas estão legíveis',5]); if(!F.c2)b.push(['Confirme que todos os campos descritivos foram preenchidos',5]);
+  return b;
+}
+let miss;
+function renderRev(){
+  const sc=score(); const bl=blockers(); const list=allScreens().filter(s=>isFilled(s.key)||S.scr[s.key]&&S.scr[s.key].img).concat(orphans().filter(k=>isFilled(k)).map(k=>({key:k,nome:S.scr[k].nome||k})));
+  const F=S.fin; const M=S.meta;
+  $('#app').innerHTML=head('Revisão e download','Confira o resumo. O download libera quando não houver pendências obrigatórias.')+`
+  <div class="card review"><h3>Resumo</h3><div class="tw"><table>
+   <tr><th>Data da análise</th><td>${fmtD(M.data)}</td></tr><tr><th>ID Pasta / ID Subsídio</th><td>${esc(M.idPasta)} / ${esc(M.idSub)}</td></tr>
+   <tr><th>Subobjeto</th><td>${esc(M.sub)}${M.sub!==M.subOrig?` <span class="note">(original: ${esc(M.subOrig)}; ${esc(M.subMotivo)})</span>`:''}</td></tr>
+   <tr><th>Cadastro ou contrato</th><td>${esc(S.cad.tem||'—')}</td></tr>
+   <tr><th>Conclusão</th><td>${esc(F.conclusao||'—')}</td></tr><tr><th>Causa real</th><td>${esc(causaFinal()||'—')}</td></tr>
+   <tr><th>Área de risco</th><td>${esc(F.risco||'—')}${F.riscoEsp?': '+esc(F.riscoEsp):''}</td></tr><tr><th>Iilegitimidade passiva</th><td>${esc(F.legit||'—')}${F.legitEsp?': '+esc(F.legitEsp):''}</td></tr>
+   <tr><th>Telas no documento</th><td>${list.filter(s=>isFilled(s.key)).length}</td></tr><tr><th>Nota do dossiê</th><td><b>${sc.total.toFixed(1).replace('.',',')}</b> / 10</td></tr></table></div></div>
+  <div class="card"><h3>Confirmações finais</h3><div class="checks">
+   <label><input type="checkbox" data-fin="c1" ${F.c1?'checked':''}> Confirmo que todas as telas estão legíveis.</label>
+   <label><input type="checkbox" data-fin="c2" ${F.c2?'checked':''}> Confirmo que todos os campos descritivos foram preenchidos devidamente.</label></div></div>
+  ${bl.length?`<div class="blockers"><b>Falta resolver:</b><ul>${bl.map(([t,s])=>`<li>${esc(t)} · <a data-step="${s}">ir</a></li>`).join('')}</ul></div>`:`<div class="banner">${ic('info',20)}<div><b>Tudo certo.</b> Escolha o formato.</div></div>`}
+  <div class="dl"><button class="btn pri" data-act="exp" data-f="pdf" ${bl.length?'disabled':''}>${ic('file',20)}Baixar PDF<span class="rec">Recomendado</span></button><button class="btn alt" data-act="exp" data-f="pptx" ${bl.length?'disabled':''}>${ic('file',20)}Baixar PPTX</button><button class="btn alt" data-act="exp" data-f="docx" ${bl.length?'disabled':''}>${ic('file',20)}Baixar DOCX</button></div>
+  <p class="note"><b>O PDF é o formato recomendado.</b> Use PPTX ou DOCX só se precisar editar o conteúdo depois, por exemplo para melhorar uma imagem. Uma tela por página ou slide, com o nome da tela, a imagem e a descrição abaixo. O logotipo oficial entra na capa quando for fornecido.</p>`+`<div class="footnav"><button class="btn" data-step="${prevStep()}">${ic('back',18)}Voltar</button><span></span></div>`;
+}
+</script>
+<script>
+/* ---------- Exportação ---------- */
+function docModel(){
+  const scr=[]; const seen=new Set();
+  const push=(s)=>{if(seen.has(s.key)||!isFilled(s.key))return;seen.add(s.key);const st=S.scr[s.key];scr.push({nome:(st.nome||s.nome),img:st.img.dataUrl,w:st.img.w,h:st.img.h,desc:st.desc.trim()})};
+  allScreens().forEach(push); orphans().forEach(k=>push({key:k,nome:S.scr[k].nome||k}));
+  const unav=allScreens().filter(s=>isUnavail(s.key)).map(s=>({nome:S.scr[s.key].nome||s.nome,motivo:S.scr[s.key].indisp.motivo+(S.scr[s.key].indisp.txt?' – '+S.scr[s.key].indisp.txt:'')}));
+  const M=S.meta,alt=M.sub!==M.subOrig;
+  const F0=S.fin,yes=v=>v==='Sim';
+  const tags=[{k:'ID Pasta',v:M.idPasta},{k:'ID Subsídio',v:M.idSub},{k:'Data da análise',v:fmtD(M.data)},{k:'Causa real',v:causaFinal()},
+    {k:'Conclusão',v:F0.conclusao,t:'hi'}];
+  if(alt)tags.push({k:'Subobjeto alterado',v:titleCase(M.subOrig)+' para '+titleCase(M.sub),t:'alt'});
+  const attn=[];
+  if(yes(F0.risco))attn.push({t:'risk',k:'Área de risco',v:'Sim',x:F0.riscoEsp||''});
+  if(yes(F0.legit))attn.push({t:'leg',k:'Iilegitimidade passiva',v:'Sim',x:F0.legitEsp||''});
+  if(alt)attn.push({t:'alt',k:'Subobjeto alterado',v:titleCase(M.subOrig)+' para '+titleCase(M.sub),x:'Motivo: '+(M.subMotivo||'—').trim()});
+  return{tags,attn,M,F:S.fin,causa:causaFinal(),scr,unav,cad:S.cad.tem,nota:score().total,subAlt:alt,subTxt:alt?titleCase(M.sub)+' (alterado de '+titleCase(M.subOrig)+'. Motivo: '+(M.subMotivo||'—').trim()+')':titleCase(M.sub)};
+}
+const hex=h=>h.replace('#','');
+function fit(w,h,bw,bh){const r=Math.min(bw/w,bh/h);return[w*r,h*r]}
+const titleCase=t=>{t=(t||'').toLowerCase();return t.charAt(0).toUpperCase()+t.slice(1)};
+const KIND={hi:{bg:[50,224,0],fg:[25,43,28],h:'32E000',fh:'192B1C'},risk:{dot:[244,67,108],dh:'F4436C',lbl:'Área de risco'},leg:{dot:[253,128,4],dh:'FD8004'},alt:{dot:[253,231,55],dh:'FDE737'}};
+function gradBar(w,h,stops){const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');const g=x.createLinearGradient(0,0,w,0);stops.forEach((s,i)=>g.addColorStop(i/(stops.length-1),s));x.fillStyle=g;x.beginPath();x.roundRect(0,0,w,h,h/2);x.fill();return c.toDataURL('image/png')}
+const KC={dark:[25,43,28],neon:[50,224,0],sand:[248,247,240],lg:[214,227,216],mut:[90,107,93],gr:[26,114,0]};
+function metaRows(D){return[['ID Pasta',D.M.idPasta],['ID Subsídio',D.M.idSub],['Data da análise',fmtD(D.M.data)]]}
+async function exportPDF(D){
+  const {jsPDF}=window.jspdf; const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'}); const W=297,H=210;
+  const T=(txt,x,y,o={})=>{doc.setFont('helvetica',o.b?'bold':'normal');doc.setFontSize(o.s||11);doc.setTextColor(...(o.c||KC.dark));doc.text(txt,x,y,o.a?{align:o.a}:undefined)};
+  const logo=(x,y,h,v)=>{const L=LOGO[v];if(L)doc.addImage(L.url,'PNG',x,y,h*L.w/L.h,h)};
+  const GB=gradBar(360,32,['#32E000','#C3FF05']);
+  // capa
+  doc.setFillColor(...KC.dark);doc.rect(0,0,W,H,'F');
+  {const ww=W,wh=ww*LOGO.waves.h/LOGO.waves.w;doc.addImage(LOGO.waves.url,'PNG',0,-wh*0.375,ww,wh)}
+  logo(22,H-150,14,'neon');
+  doc.setFont('helvetica','normal');doc.setFontSize(46);doc.setTextColor(255,255,255);
+  const tl=doc.splitTextToSize('Dossiê de '+titleCase(D.M.sub),140);doc.text(tl,22,H-113,{lineHeightFactor:1.15});
+  const ty=H-113+(tl.length-1)*18;
+  T('Análise para defesa',22,ty+11,{s:15,c:KC.lg});
+  // tags
+  {let x=22,y=ty+20;const ph=10.5,gap=5,maxX=W-22;
+   const order=[...D.tags.filter(t=>!t.t),...D.tags.filter(t=>t.t)];
+   let prevHi=false;
+   order.forEach(tg=>{let v=String(tg.v||'—'),k=tg.k;
+     if(!prevHi&&tg.t&&x>22){x=22;y+=ph+4}prevHi=!!tg.t||prevHi;
+     const K=KIND[tg.t],solid=K&&K.bg,dot=K&&K.dot,off=dot?5:0;
+     doc.setFont('helvetica','normal');doc.setFontSize(9.5);const kw=doc.getTextWidth(k+'  ');
+     doc.setFont('helvetica','bold');doc.setFontSize(12.5);let vv=v;while(doc.getTextWidth(vv)>150&&vv.length>8)vv=vv.slice(0,-2);if(vv!==v)vv=vv.trim()+'…';
+     const w=kw+doc.getTextWidth(vv)+12+off;
+     if(x+w>maxX){x=22;y+=ph+4}
+     if(solid){doc.setFillColor(...K.bg);doc.roundedRect(x,y,w,ph,ph/2,ph/2,'F')}else{doc.setFillColor(36,62,40);doc.setDrawColor(...(dot?KC.lg:KC.neon));doc.setLineWidth(.35);doc.roundedRect(x,y,w,ph,ph/2,ph/2,'FD')}
+     if(dot){doc.setFillColor(...dot);doc.circle(x+6.2,y+ph/2,1.6,'F')}
+     doc.setFont('helvetica','normal');doc.setFontSize(9.5);doc.setTextColor(...(solid?K.fg:KC.lg));doc.text(k,x+6+off,y+6.8);
+     doc.setFont('helvetica','bold');doc.setFontSize(12.5);doc.setTextColor(...(solid?K.fg:[255,255,255]));doc.text(vv,x+6+off+kw,y+7);
+     x+=w+gap});}
+  {const pw=54;doc.setFillColor(255,255,255);doc.roundedRect(22,H-25,pw,8,4,4,'F');T('Edição 01 · '+fmtD(D.M.data),22+pw/2,H-19.7,{s:9.5,c:KC.dark,a:'center',b:1})}
+  T('Uso interno · Preparado para a Nio',22,H-9,{s:9,c:KC.lg});
+  const base=(title,n)=>{doc.addPage('a4','landscape');doc.setFillColor(...KC.sand);doc.rect(0,0,W,H,'F');
+    T(doc.splitTextToSize(title,200)[0],14,19,{b:1,s:20});T('Subsídio '+D.M.idSub+' · '+titleCase(D.M.sub),W-14,18,{s:9,c:KC.mut,a:'right'});
+    doc.addImage(GB,'PNG',14,23.3,18,1.6);
+    doc.setDrawColor(...KC.lg);doc.line(14,H-11,W-14,H-11);T('USO INTERNO',14,H-6,{s:8,c:KC.mut});T('Página '+n,W-14,H-6,{s:8,c:KC.mut,a:'right'})};
+  const card=(x,y,w,h)=>{doc.setFillColor(255,255,255);doc.setDrawColor(...KC.lg);doc.setLineWidth(.3);doc.roundedRect(x,y,w,h,3,3,'FD')};
+  // resumo
+  let pg=2; base('Resumo da análise',pg);
+  let cy=32;
+  if(D.attn.length){const n=D.attn.length,gw=6,cw=(269-gw*(n-1))/n;
+    D.attn.forEach((a,i)=>{const K=KIND[a.t],x=14+i*(cw+gw);doc.setFillColor(238,243,238);doc.setDrawColor(...KC.lg);doc.setLineWidth(.3);doc.roundedRect(x,32,cw,30,4,4,'FD');
+      doc.setFillColor(...K.dot);doc.circle(x+7,39.2,1.6,'F');
+      T(a.k.toUpperCase(),x+11,40.5,{b:1,s:8,c:KC.dark});doc.setFont('helvetica','bold');doc.setFontSize(13);doc.setTextColor(...KC.dark);doc.text(doc.splitTextToSize(a.v,cw-12)[0],x+6,48);
+      doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(...KC.mut);doc.text(doc.splitTextToSize(a.x,cw-12).slice(0,2),x+6,54)});
+    cy=68}
+  const ch=192-cy;
+  card(14,cy,120,ch);let y=cy+10;
+  [['Conclusão',D.F.conclusao],['Causa real',D.causa],['Cadastro ou contrato',D.cad],['Subobjeto',D.subTxt],['Área de risco',D.F.risco+(D.F.riscoEsp?': '+D.F.riscoEsp:'')],['Iilegitimidade passiva',D.F.legit+(D.F.legitEsp?': '+D.F.legitEsp:'')]].forEach(([k,v])=>{
+    T(k.toUpperCase(),20,y,{b:1,s:8,c:KC.gr});doc.setFont('helvetica',k==='Conclusão'?'bold':'normal');doc.setFontSize(11.5);const ls=doc.splitTextToSize(String(v||'—'),106);T(ls,20,y+5.5,{s:11.5,b:k==='Conclusão'});y+=5.5+ls.length*5.2+7});
+  card(140,cy,143,ch);T('FUNDAMENTAÇÃO',146,cy+10,{b:1,s:8,c:KC.gr});
+  let fs=11;doc.setFont('helvetica','normal');doc.setFontSize(fs);let fl=doc.splitTextToSize(D.F.fund,131);while(fs>8&&fl.length*fs*.45>ch-20){fs-=.5;doc.setFontSize(fs);fl=doc.splitTextToSize(D.F.fund,131)}
+  doc.setFont('helvetica','normal');doc.setFontSize(fs);doc.setTextColor(...KC.dark);doc.text(fl.slice(0,Math.floor((ch-20)/(fs*.45))),146,cy+17);
+  for(const s of D.scr){
+    pg++; base(s.nome,pg);
+    card(14,30,269,136); const [iw,ih]=fit(s.w,s.h,265,130); doc.addImage(s.img,'JPEG',14+(269-iw)/2,30+(136-ih)/2,iw,ih);
+    T('O QUE ESTA TELA COMPROVA',14,173,{b:1,s:8,c:KC.gr});
+    let f2=11;doc.setFont('helvetica','normal');doc.setFontSize(f2);let ls=doc.splitTextToSize(s.desc,269);const room=H-14-177;
+    while(f2>8&&ls.length*f2*.43>room){f2-=.5;doc.setFontSize(f2);ls=doc.splitTextToSize(s.desc,269)}
+    const per=Math.max(1,Math.floor(room/(f2*.43)));doc.setFont('helvetica','normal');doc.setFontSize(f2);doc.setTextColor(...KC.dark);doc.text(ls.slice(0,per),14,179);
+    if(ls.length>per){pg++;base(s.nome+' (continuação)',pg);doc.setFont('helvetica','normal');doc.setFontSize(f2);doc.setTextColor(...KC.dark);doc.text(ls.slice(per),14,38)}
+  }
+  return doc.output('blob');
+}
+async function exportPPTX(D){
+  const p=new PptxGenJS(); p.layout='LAYOUT_WIDE'; const W=13.33,H=7.5; const SH=p.ShapeType;
+  const logo=(sl,x,y,h,v)=>{const L=LOGO[v];sl.addImage({data:L.url,x,y,w:h*L.w/L.h,h})};
+  const GBp=gradBar(360,32,['#32E000','#C3FF05']);
+  let s=p.addSlide(); s.background={color:'192B1C'};
+  {const ww=W,wh=ww*LOGO.waves.h/LOGO.waves.w;s.addImage({data:LOGO.waves.url,x:0,y:-wh*0.375,w:ww,h:wh})}
+  logo(s,0.9,H-6.4,0.62,'neon');
+  s.addText('Dossiê de '+titleCase(D.M.sub),{x:0.9,y:H-5.65,w:4.9,h:1.7,fontSize:46,color:'FFFFFF',fontFace:'Arial',valign:'top',fit:'shrink'});
+  s.addText('Análise para defesa',{x:0.9,y:H-3.95,w:8,h:0.4,fontSize:16,color:'D6E3D8'});
+  {let x=0.9,y=H-3.35;const ph=0.46;
+   const order=[...D.tags.filter(t=>!t.t),...D.tags.filter(t=>t.t)];let prevHi=false;
+   order.forEach(tg=>{const k=tg.k,v=String(tg.v||'—');const K=KIND[tg.t],solid=K&&K.bg,dot=K&&K.dot,off=dot?0.2:0;const w=Math.min(11.5,0.5+off+(k.length+2)*0.07+v.length*0.098);
+     if(!prevHi&&tg.t&&x>0.9){x=0.9;y+=ph+0.16}prevHi=!!tg.t||prevHi;
+     if(x+w>12.45){x=0.9;y+=ph+0.16}
+     s.addShape(SH.roundRect,{x,y,w,h:ph,fill:{color:solid?K.h:'243E28'},line:{color:dot?'D6E3D8':'32E000',width:solid?0:1},rectRadius:ph/2});
+     if(dot)s.addShape(SH.ellipse,{x:x+0.2,y:y+ph/2-0.065,w:0.13,h:0.13,fill:{color:K.dh},line:{color:K.dh,width:0}});
+     s.addText([{text:k+'  ',options:{fontSize:11,color:solid?K.fh:'D6E3D8'}},{text:v,options:{fontSize:14,bold:true,color:solid?K.fh:'FFFFFF'}}],{x:x+0.05+off,y,w:w-0.1-off,h:ph,align:'center',valign:'middle',fit:'shrink'});
+     x+=w+0.18});}
+  s.addShape(SH.roundRect,{x:0.9,y:H-0.95,w:2.5,h:0.36,fill:{color:'FFFFFF'},rectRadius:0.18,line:{color:'FFFFFF',width:0}});
+  s.addText('Edição 01 · '+fmtD(D.M.data),{x:0.9,y:H-0.95,w:2.5,h:0.36,fontSize:11,bold:true,color:'192B1C',align:'center',valign:'middle'});
+  s.addText('Uso interno · Preparado para a Nio',{x:0.9,y:H-0.5,w:6,h:0.25,fontSize:10,color:'D6E3D8'});
+  const base=(title)=>{const sl=p.addSlide();sl.background={color:'F8F7F0'};
+    sl.addText(title,{x:0.45,y:0.22,w:9.6,h:0.5,fontSize:24,bold:true,color:'192B1C',fontFace:'Arial',fit:'shrink'});
+    sl.addText('Subsídio '+D.M.idSub+' · '+titleCase(D.M.sub),{x:9.0,y:0.28,w:3.9,h:0.3,fontSize:10,color:'5A6B5D',align:'right'});
+    sl.addImage({data:GBp,x:0.45,y:0.755,w:0.55,h:0.06});
+    sl.addText('USO INTERNO · ID Subsídio '+D.M.idSub,{x:0.45,y:H-0.35,w:6,h:0.25,fontSize:8,color:'5A6B5D'});return sl};
+  const cardSh=(sl,x,y,w,h)=>sl.addShape(SH.roundRect,{x,y,w,h,fill:{color:'FFFFFF'},line:{color:'D6E3D8',width:1},rectRadius:0.12});
+  s=base('Resumo da análise'); let cy=1.05;
+  if(D.attn.length){const n=D.attn.length,gw=0.2,cw=(12.43-gw*(n-1))/n;
+    D.attn.forEach((a,i)=>{const K=KIND[a.t],x=0.45+i*(cw+gw);s.addShape(SH.roundRect,{x,y:1.05,w:cw,h:1.25,fill:{color:'EEF3EE'},rectRadius:0.14,line:{color:'D6E3D8',width:1}});
+      s.addShape(SH.ellipse,{x:x+0.2,y:1.2,w:0.13,h:0.13,fill:{color:K.dh},line:{color:K.dh,width:0}});
+      s.addText(a.k.toUpperCase(),{x:x+0.42,y:1.13,w:cw-0.6,h:0.25,fontSize:9,bold:true,color:'192B1C'});
+      s.addText(a.v,{x:x+0.2,y:1.38,w:cw-0.4,h:0.4,fontSize:17,bold:true,color:'192B1C',fit:'shrink'});
+      s.addText(a.x,{x:x+0.2,y:1.78,w:cw-0.4,h:0.45,fontSize:10.5,color:'5A6B5D',valign:'top',fit:'shrink'})});
+    cy=2.5}
+  const chh=6.65-cy; cardSh(s,0.45,cy,5.2,chh); let y=cy+0.25;
+  [['Conclusão',D.F.conclusao],['Causa real',D.causa],['Cadastro ou contrato',D.cad],['Subobjeto',D.subTxt],['Área de risco',D.F.risco+(D.F.riscoEsp?': '+D.F.riscoEsp:'')],['Iilegitimidade passiva',D.F.legit+(D.F.legitEsp?': '+D.F.legitEsp:'')]].forEach(([k,v])=>{s.addText(k.toUpperCase(),{x:0.7,y,w:4.7,h:0.22,fontSize:9,bold:true,color:'1A7200'});s.addText(String(v||'—'),{x:0.7,y:y+0.22,w:4.7,h:0.4,fontSize:k==='Conclusão'?13:11.5,bold:k==='Conclusão',color:'192B1C',valign:'top',fit:'shrink'});y+=(D.attn.length?0.62:0.88)});
+  cardSh(s,5.85,cy,7.03,chh); s.addText('FUNDAMENTAÇÃO',{x:6.1,y:cy+0.25,w:6,h:0.22,fontSize:9,bold:true,color:'1A7200'});
+  s.addText(D.F.fund,{x:6.1,y:cy+0.55,w:6.5,h:chh-0.8,fontSize:D.F.fund.length>900?10:D.F.fund.length>600?11:12.5,color:'192B1C',valign:'top',fit:'shrink'});
+  for(const t of D.scr){
+    s=base(t.nome); cardSh(s,0.45,0.95,12.43,5.05); const [iw,ih]=fit(t.w,t.h,12.25,4.8); s.addImage({data:t.img,x:0.45+(12.43-iw)/2,y:0.95+(5.05-ih)/2,w:iw,h:ih});
+    s.addText('O QUE ESTA TELA COMPROVA',{x:0.45,y:6.07,w:6,h:0.2,fontSize:8.5,bold:true,color:'1A7200'});
+    s.addText(t.desc,{x:0.45,y:6.27,w:12.4,h:0.85,fontSize:t.desc.length>650?10:t.desc.length>420?11:12.5,color:'192B1C',valign:'top',fit:'shrink'});
+  }
+  return await p.write({outputType:'blob'});
+}
+async function exportDOCX(D){
+  const d=window.docx; const {Document,Packer,Paragraph,TextRun,ImageRun,Table,TableRow,TableCell,WidthType,ShadingType,PageOrientation,AlignmentType,PageBreak,Footer,BorderStyle}=d;
+  const u8=url=>{const b=atob(url.split(',')[1]);const a=new Uint8Array(b.length);for(let i=0;i<b.length;i++)a[i]=b.charCodeAt(i);return a};
+  const none={style:BorderStyle.NONE,size:0,color:'FFFFFF'}; const nb={top:none,bottom:none,left:none,right:none};
+  const P=(t,o={})=>new Paragraph({spacing:{before:o.before||0,after:o.after||0},children:[new TextRun({text:String(t),bold:!!o.b,size:o.s||24,color:o.c||'192B1C',font:'Arial',characterSpacing:o.cs||0})]});
+  const imgP=(L,wpx,opts={})=>new Paragraph({alignment:opts.al||AlignmentType.LEFT,spacing:{after:opts.after||0},children:[new ImageRun({data:u8(L.url),transformation:{width:wpx,height:Math.round(wpx*L.h/L.w)},type:opts.t||'png'})]});
+  const NB='\u00A0';
+  const tag=(k,v,t)=>{const K=KIND[t];const solid=K&&K.bg;const fill=solid?K.h:'2B4A30',fg=solid?K.fh:'FFFFFF',fk=solid?K.fh:'D6E3D8';const sh={type:ShadingType.CLEAR,fill,color:'auto'};const dot=K&&K.dot?[new TextRun({text:NB+NB+'●',size:22,color:K.dh,font:'Arial',shading:sh})]:[];return [...dot,new TextRun({text:NB+NB+k+NB+NB,size:22,color:fk,font:'Arial',shading:sh}),new TextRun({text:String(v||'—')+NB+NB,bold:true,size:26,color:fg,font:'Arial',shading:sh}),new TextRun({text:'   ',size:26})]};
+  const tagRow=(arr)=>new Paragraph({spacing:{after:140,line:380},children:arr.flatMap(g=>tag(g.k,g.v,g.t))});
+  const cover=new Table({width:{size:100,type:WidthType.PERCENTAGE},borders:{top:none,bottom:none,left:none,right:none,insideHorizontal:none,insideVertical:none},rows:[new TableRow({height:{value:10000,rule:'atLeast'},children:[
+    new TableCell({shading:{type:ShadingType.CLEAR,fill:'192B1C',color:'auto'},borders:nb,margins:{top:0,bottom:500,left:900,right:0},children:[
+      imgP(LOGO.waves,300,{al:AlignmentType.RIGHT,after:60}),imgP(LOGO.neon,140,{after:140}),
+      P('Dossiê de '+titleCase(D.M.sub),{s:76,c:'FFFFFF',after:80}),P('Análise para defesa',{s:28,c:'D6E3D8',after:200}),
+      tagRow(D.tags.slice(0,3)),tagRow(D.tags.slice(3,5)),...(D.tags.slice(5).length?[tagRow(D.tags.slice(5))]:[]),
+      P('Edição 01 · '+fmtD(D.M.data),{b:1,s:20,c:'FFFFFF',before:100,after:100}),P('Uso interno · Preparado para a Nio',{s:17,c:'D6E3D8'})]})]})]});
+  const H=(t)=>new Paragraph({spacing:{before:80,after:60},children:[new TextRun({text:t,bold:true,size:40,color:'192B1C',font:'Arial'})]});
+  const bar=()=>new Paragraph({spacing:{after:180},border:{bottom:{style:BorderStyle.SINGLE,size:18,color:'32E000',space:1}},indent:{right:11000},children:[new TextRun({text:' ',size:8})]});
+  const kv=(k,v)=>[P(k.toUpperCase(),{b:1,s:17,c:'1A7200',before:160}),P(v||'—',{s:24})];
+  const kids=[cover,new Paragraph({children:[new PageBreak()]}),H('Resumo da análise'),bar(),...(D.attn.length?[tagRow(D.attn.map(a=>({k:a.k,v:a.v+(a.x?' · '+a.x:''),t:a.t})))]:[]),...kv('Subobjeto',D.subTxt),...kv('Conclusão',D.F.conclusao),...kv('Causa real',D.causa),...kv('Cadastro ou contrato',D.cad),...kv('Área de risco',D.F.risco+(D.F.riscoEsp?': '+D.F.riscoEsp:'')),...kv('Iilegitimidade passiva',D.F.legit+(D.F.legitEsp?': '+D.F.legitEsp:'')),...kv('Fundamentação',D.F.fund)];
+  D.scr.forEach(t=>{const [iw,ih]=fit(t.w,t.h,1000,420);kids.push(new Paragraph({children:[new PageBreak()]}),H(t.nome),bar(),new Paragraph({alignment:AlignmentType.CENTER,spacing:{after:140},children:[new ImageRun({data:u8(t.img),transformation:{width:Math.round(iw),height:Math.round(ih)},type:'jpg'})]}),P('O QUE ESTA TELA COMPROVA',{b:1,s:16,c:'1A7200',before:60}),P(t.desc,{s:24}))});
+  const doc=new Document({sections:[{properties:{page:{size:{width:11906,height:16838,orientation:PageOrientation.LANDSCAPE},margin:{top:720,bottom:720,left:720,right:720}}},footers:{default:new Footer({children:[new Paragraph({children:[new TextRun({text:'USO INTERNO · ID Subsídio '+D.M.idSub,size:16,color:'5A6B5D',font:'Arial'})]})]})},children:kids}]});
+  return await Packer.toBlob(doc);
+}
+async function doExport(fmt){
+  const D=docModel(); const name=`Subsidio_Interrupcao_${D.M.idSub||'caso'}`.replace(/[^\w.-]+/g,'_');
+  toast('Gerando '+fmt.toUpperCase()+'…');
+  try{
+    const blob=fmt==='pdf'?await exportPDF(D):fmt==='pptx'?await exportPPTX(D):await exportDOCX(D);
+    window.__lastExport={fmt,size:blob.size};
+    const dl=window.claude&&window.claude.use?await window.claude.use('downloads'):null;
+    if(dl){await dl.save({filename:name+'.'+fmt,data:blob});toast('Arquivo '+fmt.toUpperCase()+' pronto.');}
+    else{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name+'.'+fmt;a.click();toast('Arquivo '+fmt.toUpperCase()+' gerado ('+Math.round(blob.size/1024)+' KB).');}
+  }catch(e){ if(e&&e.code==='declined'){toast('Download cancelado.');return;} console.error(e); toast('Não foi possível gerar o arquivo: '+((e&&e.message)||'erro')); }
+}
+async function pasteClip(k){
+  lastCard=k;
+  try{
+    if(!navigator.clipboard||!navigator.clipboard.read)throw new Error('na');
+    const items=await navigator.clipboard.read();
+    for(const it of items){const ty=it.types.find(t=>t.startsWith('image/'));if(ty){const b=await it.getType(ty);handleFile(k,new File([b],'colada.png',{type:ty}));return}}
+    toast('Não há imagem na área de transferência. Copie uma captura e tente de novo.');
+  }catch(e){toast('Seu navegador não liberou o acesso. Clique na área da tela e use Ctrl+V.')}
+}
+function toast(m){const t=$('#toast');t.textContent=m;t.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>t.hidden=true,3500)}
+</script>
+<script>
+/* ---------- Eventos ---------- */
+let lastCard=null;
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-step],[data-act],[data-zoom],[data-drop]'); if(!t)return;
+  if(t.dataset.step!==undefined){go(+t.dataset.step);return}
+  if(t.dataset.zoom){const z=$('#zoom');z.querySelector('img').src=t.src;z.showModal();return}
+  if(t.dataset.drop){const inp=t.querySelector('input');if(e.target!==inp)inp.click();return}
+  const a=t.dataset.act,k=t.dataset.k,v=t.dataset.v;
+  if(a==='subok'){S.meta.sub=S.meta.subOrig;S.meta.corrigindo=false;S.meta.subMotivo='';renderIdent();renderScore();renderNav();}
+  else if(a==='subfix'){S.meta.corrigindo=true;renderIdent();}
+  else if(a==='cad'){S.cad.tem=v;render();}
+  else if(a==='addc'){const sel=$('#addc');if(sel.value){S.comuns.push(sel.value);render();}}
+  else if(a==='rmc'){const n=k.slice(2);S.comuns=S.comuns.filter(x=>x!==n);delete S.scr[k];render();}
+  else if(a==='ans'){const id=t.dataset.q;S.A[id]=S.A[id]===v?undefined:v;refreshBlock(id);renderScore();renderNav();}
+  else if(a==='pastecb'){pasteClip(k)}
+  else if(a==='draft'){const sp=specFor(k);if(sp&&sp.draft){scrState(k).desc=sp.draft();refreshCard(k);}}
+  else if(a==='rmimg'){const st=scrState(k);st.img=null;st.legivel=false;refreshCard(k);}
+  else if(a==='rmscr'){delete S.scr[k];if(S.step===3)renderOrph();renderScore();renderNav();}
+  else if(a==='unset'){const c=document.getElementById('card_'+k);const m=c.querySelector('[data-unmot]').value;if(!m){toast('Escolha o motivo.');return}scrState(k).indisp={motivo:m,txt:c.querySelector('[data-untxt]').value};refreshCard(k);}
+  else if(a==='unun'){scrState(k).indisp=null;refreshCard(k);}
+  else if(a==='fin'){const q=t.dataset.q;S.fin[q]=v;renderConc();renderScore();}
+  else if(a==='conc'){S.fin.conclusao=v;renderConc();renderScore();renderNav();}
+  else if(a==='causa'){S.fin.causa=v;renderConc();renderScore();renderNav();}
+  else if(a==='fund'){S.fin.fund=draftFund();renderConc();renderScore();}
+  else if(a==='risco'){S.fin.risco=v;renderConc();renderScore();}
+  else if(a==='legit'){S.fin.legit=v;renderConc();renderScore();}
+  else if(a==='exp'){doExport(v||t.dataset.f);}
+});
+document.addEventListener('input',e=>{
+  const t=e.target;
+  if(t.dataset.m){S.meta[t.dataset.m]=t.value;if(t.dataset.m==='sub'){renderIdent();}renderScore();renderNav();}
+  else if(t.dataset.ans&&t.type!=='select-one'){S.A[t.dataset.ans]=t.value;renderScore();}
+  else if(t.dataset.desc){const k=t.dataset.desc;const st=scrState(k);st.desc=t.value;const n=t.value.trim().length;const c=document.getElementById('cnt_'+k);if(c){c.textContent=n+' caracteres'+(n<40?' · mínimo 40':'');c.className='counter'+(n<40?' low':'')}renderScore();}
+  else if(t.dataset.fin){const k=t.dataset.fin; if(k==='fund'){S.fin.fund=t.value;const n=t.value.trim().length;const c=$('#fcnt');if(c){c.textContent=n+' caracteres'+(n<150?' · mínimo 150':'');c.className='counter'+(n<150?' low':'')}} else if(k!=='causaSel'&&k!=='c1'&&k!=='c2')S.fin[k]=t.value; renderScore();}
+  else if(t.dataset.nomeoutra){scrState(t.dataset.nomeoutra).nome=t.value;}
+});
+document.addEventListener('change',e=>{
+  const t=e.target;
+  if(t.dataset.m==='data'||t.dataset.m==='sub'){S.meta[t.dataset.m]=t.value;renderScore();renderNav();}
+  else if(t.dataset.ans){S.A[t.dataset.ans]=t.value;refreshBlock(t.dataset.ans);renderScore();renderNav();}
+  else if(t.dataset.multi){const id=t.dataset.multi;const cur=new Set(S.A[id]||[]);t.checked?cur.add(t.value):cur.delete(t.value);S.A[id]=[...cur];refreshBlock(id);renderScore();renderNav();}
+  else if(t.dataset.chk){S.cad.checks[t.dataset.chk]=t.checked;renderCad();renderScore();renderNav();}
+  else if(t.dataset.file){handleFile(t.dataset.file,t.files[0]);}
+  else if(t.dataset.leg){scrState(t.dataset.leg).legivel=t.checked;refreshCard(t.dataset.leg);}
+  else if(t.dataset.nome){const k=t.dataset.nome;scrState(k).nome=t.value==='__outra'?'Outra tela':t.value;refreshCard(k);}
+  else if(t.dataset.fin==='causaSel'){S.fin.causa=t.value;renderConc();renderScore();renderNav();}
+  else if(t.dataset.fin==='c1'||t.dataset.fin==='c2'){S.fin[t.dataset.fin]=t.checked;renderRev();renderScore();}
+});
+document.addEventListener('focusin',e=>{const c=e.target.closest('[data-card]');if(c)lastCard=c.dataset.card});
+document.addEventListener('click',e=>{const c=e.target.closest('[data-card]');if(c)lastCard=c.dataset.card},true);
+document.addEventListener('paste',e=>{const it=[...(e.clipboardData?.items||[])].find(i=>i.type.startsWith('image/'));if(!it||!lastCard)return;const f=it.getAsFile();if(f){e.preventDefault();handleFile(lastCard,f)}});
+document.addEventListener('dragover',e=>{const d=e.target.closest('[data-drop]');if(d){e.preventDefault();d.classList.add('over')}});
+document.addEventListener('dragleave',e=>{const d=e.target.closest('[data-drop]');if(d)d.classList.remove('over')});
+document.addEventListener('drop',e=>{const d=e.target.closest('[data-drop]');if(d){e.preventDefault();d.classList.remove('over');handleFile(d.dataset.drop,e.dataTransfer.files[0])}});
+$('#zoom').addEventListener('click',()=>$('#zoom').close());
+$('#reset').addEventListener('click',()=>{if($('#reset').dataset.arm){S=blank();delete $('#reset').dataset.arm;$('#reset').textContent='Limpar tudo';render();}else{$('#reset').dataset.arm=1;$('#reset').textContent='Confirmar limpeza';setTimeout(()=>{delete $('#reset').dataset.arm;$('#reset').textContent='Limpar tudo'},4000)}});
+/* Caso de exemplo (dados fictícios, imagens geradas) */
+function mockShot(title,lines){
+  const c=document.createElement('canvas');c.width=1280;c.height=720;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,1280,720);x.fillStyle='#192B1C';x.fillRect(0,0,1280,64);x.fillStyle='#32E000';x.font='bold 26px Arial';x.fillText('EXEMPLO · '+title,24,42);
+  x.fillStyle='#222';x.font='24px Arial';lines.forEach((l,i)=>{x.fillText(l,40,120+i*44)});
+  for(let i=0;i<14;i++){x.fillStyle=i%2?'#EEF3EC':'#fff';x.fillRect(40,330+i*26,1200,26);x.fillStyle='#444';x.font='16px Arial';x.fillText('Registro fictício '+(i+1)+'   ·   status OK   ·   data '+(10+i)+'/03/2026',50,349+i*26)}
+  return new Promise(r=>c.toBlob(b=>r(new File([b],'exemplo.png',{type:'image/png'}))))
+}
+async function loadDemo(){
+  S=blank(); S.demo=true;
+  Object.assign(S.meta,{idPasta:'900123',idSub:'99001'}); S.cad.tem='Sim'; S.comuns=['Tela Única – Dados do Contrato','Siebel – Protocolos de Atendimento'];
+  Object.assign(S.A,{relata:'Sim',alegDe:'2026-03-10',alegAte:'2026-03-17',chamados:'Sim',qtdCh:'2',evDoc:'Sim',tipoEv:'Salesforce',evTec:'Sim',tipoCausa:'Desalinhamento de sinal',falhaDe:'2026-03-10',falhaAte:'2026-03-12',coincide:'Sim',estab:'Não',atuacao:'Sim',dataAtu:'2026-03-12',resAtu:'Resolvido',normal:'Sim',desal:'Sim',infra:'Não',massiva:'Não',manut:'Não',restab:'Sim',tempo:'48',evTempo:'Sim',provaHora:'Sim',vand:'Não',bo:'Não',dano:'Não',risco:'Não',inadimp:'Não',credito:'Não',amb:'Não',testes:'Sim',resTestes:'Instável',pCoin:'Sim',diverg:'Não'});
+  const specs=[...allScreens()];
+  for(const sp of specs){ if(sp.nivel==='sug'&&!sp.common)continue; const f=await mockShot(sp.nome,['ID Subsídio 99001 (dados fictícios)',...sp.mostrar.slice(0,2)]);const st=scrState(sp.key);const r=await analyze(f);r.ocr={state:'off'};st.img=r;st.desc=sp.draft?sp.draft():'';st.legivel=true;}
+  S.step=3; render(); toast('Caso de exemplo carregado. Dados fictícios.');
+}
+$('#demo').addEventListener('click',loadDemo);
+render();
+if(location.hash==='#exemplo')loadDemo();
+</script>
